@@ -1,26 +1,136 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #140d08;
+    --foreground: #f7ecdb;
+  }
+
+  * {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #120b06;
+    color: #f7ecdb;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .font-cowboy {
+    font-family: 'Rye', serif, cursive;
+    letter-spacing: 0.05em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Wild West & Cowboy Visual System */
+
+/* Wood Saloon Plank */
+.wood-board {
+  background: 
+    linear-gradient(rgba(26, 15, 8, 0.92), rgba(18, 10, 5, 0.96)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 32px,
+      rgba(80, 42, 18, 0.25) 33px,
+      rgba(20, 10, 4, 0.5) 34px
+    );
+  background-color: #1a0f08;
+  border: 2px solid #5a3014;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+/* Wanted Poster Parchment (Artistic, Not tacky) */
+.wanted-card {
+  background: linear-gradient(180deg, #2a180e 0%, #1e1109 100%);
+  border: 2px solid #783e1c;
+  box-shadow: 
+    0 12px 28px -6px rgba(0, 0, 0, 0.8),
+    inset 0 0 18px rgba(0, 0, 0, 0.5);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wanted-card:hover {
+  border-color: #d97706;
+  transform: translateY(-4px);
+  box-shadow: 
+    0 16px 36px -6px rgba(0, 0, 0, 0.9),
+    0 0 20px rgba(217, 119, 6, 0.2);
+}
+
+/* Rope / Dashed Western Border */
+.rope-border {
+  border: 1px dashed rgba(217, 119, 6, 0.4);
+  outline: 1px solid rgba(120, 62, 28, 0.4);
+  outline-offset: 4px;
+}
+
+/* Leather Texture Button */
+.btn-leather {
+  background: linear-gradient(180deg, #9a4a1b 0%, #682f0d 100%);
+  border: 1px solid #d97706;
+  color: #fff4e0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-leather:hover {
+  background: linear-gradient(180deg, #b05621 0%, #7e3911 100%);
+  border-color: #f59e0b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(217, 119, 6, 0.3);
+}
+
+/* Brass Screw/Corner Nails */
+.brass-pin {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ca8a04, #78350f 70%, #200d02);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.4);
+}
+.pin-tl { top: 8px; left: 8px; }
+.pin-tr { top: 8px; right: 8px; }
+.pin-bl { bottom: 8px; left: 8px; }
+.pin-br { bottom: 8px; right: 8px; }
+
+/* Western Stamp */
+.cowboy-stamp {
+  font-family: 'Rye', serif, cursive;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transform: rotate(-2deg);
+  border: 2px dashed #d97706;
+  color: #f59e0b;
+  background: rgba(217, 119, 6, 0.1);
+  display: inline-block;
+  padding: 3px 10px;
+}
+
+/* Desert Canyon Gradient */
+.bg-canyon-twilight {
+  background: linear-gradient(180deg, #0d0603 0%, #1a0e07 40%, #281409 75%, #150904 100%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #120b06;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5a3014;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #854d0e;
 }
