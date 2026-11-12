@@ -665,3 +665,80 @@ export function SheriffStarPlaque({ className = 'w-12 h-12' }: { className?: str
     </svg>
   );
 }
+
+
+// ─── SOUTHWESTERN RETRO STARBURST BAND (FROM HOWDY POSTER) ───────────────────
+export function SouthwesternStarBand({ className = 'w-full h-8' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 400 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* 5 Southwestern Starbursts */}
+      {[40, 120, 200, 280, 360].map((cx, i) => (
+        <g key={i}>
+          {/* 8-point star */}
+          <polygon
+            points={`${cx},4 ${cx+4},12 ${cx+12},12 ${cx+6},16 ${cx+9},24 ${cx},19 ${cx-9},24 ${cx-6},16 ${cx-12},12 ${cx-4},12`}
+            fill="#d99951"
+          />
+          {/* Center diamond */}
+          <polygon
+            points={`${cx},11 ${cx+4},16 ${cx},21 ${cx-4},16`}
+            fill="#fbf5eb"
+          />
+          {/* Small dot in center */}
+          <circle cx={cx} cy={16} r={1.5} fill="#28150d" />
+        </g>
+      ))}
+      {/* Horizontal accent lines between stars */}
+      <line x1="60" y1="16" x2="100" y2="16" stroke="#be592e" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="140" y1="16" x2="180" y2="16" stroke="#be592e" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="220" y1="16" x2="260" y2="16" stroke="#be592e" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="300" y1="16" x2="340" y2="16" stroke="#be592e" strokeWidth="1" strokeDasharray="3 3" />
+    </svg>
+  );
+}
+
+// ─── RETRO HOWDY BADGE (CIRCULAR COWBOY HAT BADGE) ───────────────────────────
+export function RetroCowboyBadge({ className = 'w-20 h-20' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Outer circle frame */}
+      <circle cx="50" cy="50" r="46" fill="#fbf5eb" stroke="#28150d" strokeWidth="3" />
+      <circle cx="50" cy="50" r="42" fill="#f0e4cf" stroke="#be592e" strokeWidth="1.5" />
+      
+      {/* Inner sun disk */}
+      <circle cx="50" cy="50" r="32" fill="#d99951" />
+      
+      {/* Cowboy Hat Silhouette */}
+      {/* Brim */}
+      <path
+        d="M26 56 C32 50 44 48 50 48 C56 48 68 50 74 56 C70 61 58 63 50 63 C42 63 30 61 26 56 Z"
+        fill="#28150d"
+      />
+      {/* Crown */}
+      <path
+        d="M38 52 C36 44 36 34 42 29 C45 25 48 24 50 24 C52 24 55 25 58 29 C64 34 64 44 62 52 Z"
+        fill="#28150d"
+      />
+      {/* Crown indent */}
+      <path
+        d="M44 26 C47 28 50 29 53 28 C55 27 56 26 56 26"
+        stroke="#fbf5eb"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  );
+}

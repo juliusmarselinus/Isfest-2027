@@ -2,8 +2,17 @@
 
 @layer base {
   :root {
-    --background: #1c1109;
-    --foreground: #fef3c7;
+    /* Southwestern Vintage Retro Western Palette (Reference Image 2) */
+    --howdy-cream: #fbf5eb;
+    --howdy-sand: #f0e4cf;
+    --howdy-espresso: #28150d;
+    --howdy-terracotta: #be592e;
+    --howdy-terracotta-dark: #963e1a;
+    --howdy-ochre: #d99951;
+    --howdy-wall: #3d2014;
+    --howdy-wall-dark: #29140b;
+    --background: #341b10;
+    --foreground: #fcf6ec;
   }
 
   * {
@@ -12,8 +21,30 @@
   }
 
   body {
-    background-color: #190f08;
-    color: #fef3c7;
+    background-color: #d89f55;
+    background-image: 
+      /* Vertical Wood Planks seams & subtle shadow */
+      repeating-linear-gradient(
+        90deg,
+        rgba(40, 21, 13, 0.32) 0px,
+        rgba(40, 21, 13, 0.32) 2px,
+        rgba(255, 255, 255, 0.14) 3px,
+        transparent 3px,
+        transparent 156px,
+        rgba(40, 21, 13, 0.12) 157px,
+        rgba(40, 21, 13, 0.32) 158px
+      ),
+      /* Warm Saloon Honey Wood Grain Gradient */
+      linear-gradient(
+        180deg, 
+        #dfa863 0%, 
+        #d1974f 25%, 
+        #c68740 50%, 
+        #ba7a35 75%, 
+        #a86727 100%
+      );
+    background-attachment: fixed;
+    color: #28150d;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-x: hidden;
   }
@@ -24,74 +55,83 @@
   }
 }
 
-/* Wild West & Cowboy Visual System (Warmer & Brighter) */
+/* ─── RETRO SOUTHWESTERN & COWBOY STYLING ─── */
 
-/* Wood Saloon Plank */
-.wood-board {
-  background: 
-    linear-gradient(rgba(38, 21, 12, 0.94), rgba(28, 15, 8, 0.98)),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 32px,
-      rgba(120, 62, 28, 0.28) 33px,
-      rgba(30, 15, 6, 0.55) 34px
-    );
-  background-color: #26150c;
-  border: 2px solid #78350f;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
-}
-
-/* Wanted Poster Parchment (Warm Western Glow) */
+/* Vintage Poster Parchment Card (Warm Cream Canvas like Image 2) */
 .wanted-card {
-  background: linear-gradient(180deg, #381f12 0%, #29150b 100%);
-  border: 2px solid #a16207;
+  background: #fbf5ea;
+  color: #28150d;
+  border: 4px solid #be592e;
+  border-radius: 18px;
   box-shadow: 
-    0 12px 28px -6px rgba(0, 0, 0, 0.75),
-    inset 0 0 16px rgba(0, 0, 0, 0.45);
+    0 14px 32px -4px rgba(0, 0, 0, 0.55),
+    0 0 0 2px #28150d,
+    inset 0 0 20px rgba(190, 89, 46, 0.08);
   position: relative;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .wanted-card:hover {
-  border-color: #f59e0b;
+  border-color: #d99951;
   transform: translateY(-4px);
   box-shadow: 
-    0 16px 36px -6px rgba(0, 0, 0, 0.85),
-    0 0 24px rgba(245, 158, 11, 0.3);
+    0 20px 42px -6px rgba(0, 0, 0, 0.65),
+    0 0 0 2px #be592e,
+    0 0 25px rgba(217, 153, 81, 0.3);
 }
 
-/* Rope / Dashed Western Border */
+/* Terracotta / Saloon Wood Planks */
+.wood-board {
+  background: 
+    linear-gradient(rgba(251, 245, 234, 0.96), rgba(245, 236, 221, 0.98)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 32px,
+      rgba(190, 89, 46, 0.12) 33px,
+      rgba(40, 21, 13, 0.08) 34px
+    );
+  background-color: #fbf5ea;
+  border: 3px solid #be592e;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(40, 21, 13, 0.25);
+  color: #28150d;
+}
+
+/* Inner Frame Double-Line (Southwestern Border) */
 .rope-border {
-  border: 1px dashed rgba(245, 158, 11, 0.5);
-  outline: 1px solid rgba(161, 98, 7, 0.5);
+  border: 2px solid #28150d;
+  outline: 2px dashed #be592e;
   outline-offset: 4px;
 }
 
-/* Leather Texture Button */
+/* Terracotta Primary Button */
 .btn-leather {
-  background: linear-gradient(180deg, #b45309 0%, #78350f 100%);
-  border: 1px solid #fde047;
-  color: #fffbeb;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  background: linear-gradient(180deg, #c75e2f 0%, #9e431a 100%);
+  border: 1.5px solid #f6d19e;
+  color: #fdfaf4;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
   transition: all 0.2s ease;
 }
 
 .btn-leather:hover {
-  background: linear-gradient(180deg, #d97706 0%, #92400e 100%);
-  border-color: #fef08a;
+  background: linear-gradient(180deg, #d86935 0%, #b04b1d 100%);
+  border-color: #ffffff;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 14px rgba(253, 224, 71, 0.35);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 15px rgba(217, 153, 81, 0.4);
 }
 
 /* Brass Screw/Corner Nails */
 .brass-pin {
   position: absolute;
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ca8a04, #78350f 70%, #200d02);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.4);
+  background: radial-gradient(circle at 35% 35%, #f6d19e, #d99951 50%, #78350f 85%);
+  border: 1px solid #28150d;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  z-index: 10;
 }
 .pin-tl { top: 8px; left: 8px; }
 .pin-tr { top: 8px; right: 8px; }
@@ -103,34 +143,35 @@
   font-family: 'Rye', serif, cursive;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  transform: rotate(-2deg);
-  border: 2px dashed #d97706;
-  color: #f59e0b;
-  background: rgba(217, 119, 6, 0.1);
+  transform: rotate(-1.5deg);
+  border: 2px dashed #be592e;
+  color: #be592e;
+  background: rgba(190, 89, 46, 0.12);
   display: inline-block;
   padding: 3px 10px;
 }
 
-/* Desert Canyon Gradient */
+/* Desert Canyon Sunset / Warm Amber Daylight */
 .bg-canyon-twilight {
-  background: linear-gradient(180deg, #0d0603 0%, #1a0e07 40%, #281409 75%, #150904 100%);
+  background: 
+    linear-gradient(180deg, #deb16e 0%, #d1974f 35%, #be6d30 70%, #9e5223 100%);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #120b06;
+  background: #25120a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #5a3014;
-  border-radius: 4px;
+  background: #8e3e1b;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #854d0e;
+  background: #be592e;
 }

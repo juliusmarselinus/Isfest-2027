@@ -28,9 +28,9 @@ export default function CompetitionDetailModal({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-3xl wood-board rounded-2xl border-2 border-[#ca8a04] shadow-[0_20px_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-3xl wood-board rounded-2xl border-2 border-[#be592e] shadow-[0_20px_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col max-h-[90vh]"
         style={{
-          background: 'linear-gradient(180deg, #2b180d 0%, #201209 50%, #170d06 100%)',
+          background: 'linear-gradient(180deg, #2e170d 0%, #23120a 50%, #180b06 100%)',
         }}
       >
         <div className="brass-pin pin-tl" />
@@ -39,22 +39,22 @@ export default function CompetitionDetailModal({
         <div className="brass-pin pin-br" />
 
         {/* Modal Header */}
-        <div className="p-5 sm:p-6 border-b border-[#5a3014] bg-[#1a0f08] flex items-start justify-between gap-4">
+        <div className="p-5 sm:p-6 border-b border-[#be592e]/40 bg-[#1f0e07] flex items-start justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-xl bg-[#2a1408] border border-[#d97706]/40 flex items-center justify-center text-[#f6c085] shrink-0 shadow-inner">
-              <CompetitionIcon name={competition.iconName} className="w-6 h-6 text-[#d97706]" />
+            <div className="w-12 h-12 rounded-xl bg-[#2e170d] border border-[#be592e] flex items-center justify-center text-[#f6d19e] shrink-0 shadow-inner">
+              <CompetitionIcon name={competition.iconName} className="w-6 h-6 text-[#d99951]" />
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-cowboy px-2 py-0.5 rounded bg-[#381c0c] text-[#fde047] border border-[#d97706]/40 uppercase">
+                <span className="text-[10px] font-cowboy px-2 py-0.5 rounded bg-[#be592e] text-[#fdfaf4] border border-[#28150d] uppercase">
                   {competition.category}
                 </span>
-                <span className="text-xs text-[#caa27d] font-semibold flex items-center gap-1">
-                  <Users className="w-3.5 h-3.5 text-[#f6c085]" />
+                <span className="text-xs text-[#f0e4cf] font-semibold flex items-center gap-1">
+                  <Users className="w-3.5 h-3.5 text-[#d99951]" />
                   <span>{competition.members}</span>
                 </span>
               </div>
-              <h3 className="font-cowboy text-lg sm:text-xl text-[#fef3c7] leading-tight">
+              <h3 className="font-cowboy text-lg sm:text-xl text-[#fbf5eb] leading-tight">
                 {competition.title}
               </h3>
             </div>
@@ -62,7 +62,7 @@ export default function CompetitionDetailModal({
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-[#2a1408] hover:bg-[#3d1e0c] text-[#fde047] border border-[#5a3014] transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg bg-[#2e170d] hover:bg-[#be592e] text-[#fbf5eb] border border-[#be592e]/50 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>

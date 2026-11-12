@@ -37,52 +37,52 @@ export default function LombaPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#120b06] text-[#f7ecdb] flex flex-col font-sans selection:bg-[#ca8a04] selection:text-black">
+    <div className="relative min-h-screen text-[#28150d] flex flex-col font-sans selection:bg-[#be592e] selection:text-white">
       {/* Floating Navbar */}
       <Navbar onRegisterClick={() => handleOpenRegister()} />
 
       <main className="flex-1 pt-24 pb-16">
         {/* Western Sub-Hero Banner (Tombol Back Dihapus Sesuai Permintaan) */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-          <div className="relative wanted-card p-6 sm:p-8 rounded-2xl border-2 border-[#ca8a04] shadow-2xl overflow-hidden">
+          <div className="relative wanted-card p-6 sm:p-8 rounded-2xl border-4 border-[#be592e] shadow-2xl overflow-hidden bg-[#fbf5ea]">
             <div className="brass-pin pin-tl" />
             <div className="brass-pin pin-tr" />
             <div className="brass-pin pin-bl" />
             <div className="brass-pin pin-br" />
 
-            <div className="rope-border p-5 bg-[#170c06]/90 rounded-xl relative">
+            <div className="rope-border p-6 bg-[#f5ecdd] rounded-xl relative">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div>
-                  <div className="inline-block cowboy-stamp text-[10px] font-cowboy mb-2">
-                    <span className="flex items-center gap-1.5">
-                      <SheriffBadgeIcon className="w-3.5 h-3.5 text-[#d97706]" />
+                  <div className="inline-block cowboy-stamp text-[10px] font-cowboy mb-2 bg-[#fbf5ea] border-2 border-[#be592e] text-[#be592e]">
+                    <span className="flex items-center gap-1.5 font-bold">
+                      <SheriffBadgeIcon className="w-3.5 h-3.5 text-[#be592e]" />
                       <span>HALAMAN RESMI PAPAN SAYEMBARA • 4 CABANG LOMBA</span>
                     </span>
                   </div>
 
-                  <h1 className="font-cowboy text-2xl sm:text-4xl text-[#fef9c3] mb-2 leading-tight">
+                  <h1 className="font-cowboy text-2xl sm:text-4xl text-[#28150d] mb-2 leading-tight">
                     POSTER BURONAN & ARENA DUEL
                   </h1>
 
-                  <p className="text-xs sm:text-sm text-[#d8be9b] max-w-2xl leading-relaxed">
-                    Pilih dari 4 cabang perlombaan pilihan: <strong className="text-[#fde047]">2 Cabang Akademik</strong> (UI/UX Cartographer & Data Prospector) serta <strong className="text-[#fde047]">2 Cabang E-Sport</strong> (Mobile Legends & Valorant). Baca traktat aturan, unduh official guidebook, dan daftarkan pasukan timmu sebelum kuota penuh.
+                  <p className="text-xs sm:text-sm text-[#5c3a21] max-w-2xl leading-relaxed font-medium">
+                    Pilih dari 4 cabang perlombaan pilihan: <strong className="text-[#be592e]">2 Cabang Akademik</strong> (UI/UX Cartographer & Data Prospector) serta <strong className="text-[#be592e]">2 Cabang E-Sport</strong> (Mobile Legends & Valorant). Baca traktat aturan, unduh official guidebook, dan daftarkan pasukan timmu sebelum kuota penuh.
                   </p>
                 </div>
 
                 {/* Right Bounty Box */}
-                <div className="wood-board p-4 rounded-xl border border-[#783e1c] text-center shrink-0 w-full md:w-auto">
+                <div className="wood-board p-4 rounded-xl border-2 border-[#be592e] text-center shrink-0 w-full md:w-auto bg-[#fbf5ea] shadow-md">
                   <div className="flex items-center justify-center gap-2 mb-1">
-                    <Trophy className="w-5 h-5 text-[#fde047]" />
-                    <span className="font-cowboy text-lg sm:text-xl text-[#fef08a]">
+                    <Trophy className="w-5 h-5 text-[#be592e]" />
+                    <span className="font-cowboy text-lg sm:text-xl text-[#28150d]">
                       RP 21 JUTA+
                     </span>
                   </div>
-                  <span className="text-[10px] uppercase font-cowboy tracking-wider text-[#caa27d] block">
+                  <span className="text-[10px] uppercase font-cowboy tracking-wider text-[#5c3a21] block font-bold">
                     TOTAL DANA PEMBINAAN RESMI
                   </span>
                   <button
                     onClick={() => handleOpenRegister()}
-                    className="mt-3 w-full py-2 px-4 rounded-lg font-cowboy text-xs text-[#fff4e0] btn-leather cursor-pointer shadow-md"
+                    className="mt-3 w-full py-2 px-4 rounded-lg font-cowboy text-xs text-[#fdfaf4] btn-leather cursor-pointer shadow-md"
                   >
                     DAFTAR SEKARANG
                   </button>

@@ -45,16 +45,16 @@ export default function CompetitionSection({ onViewDetail, onRegister }: Competi
       {/* Category Bar & Search */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
         {/* Category Wood Buttons */}
-        <div className="flex items-center gap-2 p-1.5 rounded-xl wood-board border border-[#5a3014] w-full md:w-auto overflow-x-auto hide-scrollbar">
+        <div className="flex items-center gap-2 p-1.5 rounded-xl wood-board border-2 border-[#be592e] bg-[#fbf5ea] w-full md:w-auto overflow-x-auto hide-scrollbar shadow-md">
           <button
             onClick={() => setActiveTab('all')}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-cowboy transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'all'
-                ? 'bg-gradient-to-b from-[#9a4a1b] to-[#682f0d] text-[#fff4e0] border border-[#d97706] shadow-sm'
-                : 'text-[#caa27d] hover:text-[#fef3c7] hover:bg-white/5'
+                ? 'bg-[#be592e] text-[#fdfaf4] border border-[#28150d] shadow-sm'
+                : 'text-[#5c3a21] hover:text-[#28150d] hover:bg-[#be592e]/10'
             }`}
           >
-            <Layers className="w-3.5 h-3.5 text-[#d97706]" />
+            <Layers className="w-3.5 h-3.5 text-[#d99951]" />
             <span>Semua Arena ({COMPETITIONS_DATA.length})</span>
           </button>
 
@@ -62,11 +62,11 @@ export default function CompetitionSection({ onViewDetail, onRegister }: Competi
             onClick={() => setActiveTab('academic')}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-cowboy transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'academic'
-                ? 'bg-gradient-to-b from-[#9a4a1b] to-[#682f0d] text-[#fff4e0] border border-[#d97706] shadow-sm'
-                : 'text-[#caa27d] hover:text-[#fef3c7] hover:bg-white/5'
+                ? 'bg-[#be592e] text-[#fdfaf4] border border-[#28150d] shadow-sm'
+                : 'text-[#5c3a21] hover:text-[#28150d] hover:bg-[#be592e]/10'
             }`}
           >
-            <Compass className="w-3.5 h-3.5 text-[#d97706]" />
+            <Compass className="w-3.5 h-3.5 text-[#d99951]" />
             <span>Akademik ({academicCount})</span>
           </button>
 
@@ -74,29 +74,29 @@ export default function CompetitionSection({ onViewDetail, onRegister }: Competi
             onClick={() => setActiveTab('esport')}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-cowboy transition-all whitespace-nowrap cursor-pointer ${
               activeTab === 'esport'
-                ? 'bg-gradient-to-b from-[#9a4a1b] to-[#682f0d] text-[#fff4e0] border border-[#d97706] shadow-sm'
-                : 'text-[#caa27d] hover:text-[#fef3c7] hover:bg-white/5'
+                ? 'bg-[#be592e] text-[#fdfaf4] border border-[#28150d] shadow-sm'
+                : 'text-[#5c3a21] hover:text-[#28150d] hover:bg-[#be592e]/10'
             }`}
           >
-            <Crosshair className="w-3.5 h-3.5 text-[#d97706]" />
+            <Crosshair className="w-3.5 h-3.5 text-[#d99951]" />
             <span>Non-Akademik / E-Sport ({esportCount})</span>
           </button>
         </div>
 
         {/* Search Input */}
         <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 text-[#caa27d] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#be592e] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Cari cabang lomba..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-8 py-2.5 rounded-xl wood-board text-xs text-[#fef3c7] placeholder-[#8a6345] border border-[#5a3014] focus:outline-none focus:border-[#d97706]"
+            className="w-full pl-10 pr-8 py-2.5 rounded-xl wood-board text-xs text-[#28150d] placeholder-[#8c5936] border-2 border-[#be592e] bg-[#fbf5ea] focus:outline-none focus:ring-2 focus:ring-[#d99951] shadow-md font-medium"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#caa27d] hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#be592e] hover:text-[#28150d]"
             >
               ✕
             </button>
