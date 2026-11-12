@@ -22,8 +22,17 @@ export default function CompetitionDetailModal({
   if (!competition) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl wood-board rounded-2xl border-2 border-[#783e1c] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-3xl wood-board rounded-2xl border-2 border-[#ca8a04] shadow-[0_20px_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col max-h-[90vh]"
+        style={{
+          background: 'linear-gradient(180deg, #2b180d 0%, #201209 50%, #170d06 100%)',
+        }}
+      >
         <div className="brass-pin pin-tl" />
         <div className="brass-pin pin-tr" />
         <div className="brass-pin pin-bl" />
@@ -332,14 +341,20 @@ export default function CompetitionDetailModal({
                         <div className="text-[10px] text-[#caa27d]">{pic.role}</div>
                         <div className="text-xs font-mono text-[#fde047] mt-0.5">{pic.displayWa}</div>
                       </div>
-                      <a
-                        href={`https://wa.me/${pic.wa}?text=Halo%20kak%20${encodeURIComponent(pic.name)},%20saya%20ingin%20tanya%20seputar%20sayembara%20${encodeURIComponent(competition.title)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-600 transition-colors shrink-0"
-                      >
-                        Chat WA
-                      </a>
+                      {pic.wa ? (
+                        <a
+                          href={`https://wa.me/${pic.wa}?text=Halo%20kak%20${encodeURIComponent(pic.name)},%20saya%20ingin%20tanya%20seputar%20sayembara%20${encodeURIComponent(competition.title)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-600 transition-colors shrink-0"
+                        >
+                          Chat WA
+                        </a>
+                      ) : (
+                        <span className="px-3 py-1 rounded-lg text-[11px] font-cowboy text-[#ca8a04] bg-[#381c0c] border border-[#5a3014] shrink-0">
+                          Coming Soon
+                        </span>
+                      )}
                     </div>
                   ))}
                 </div>

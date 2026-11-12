@@ -8,9 +8,8 @@ import CompetitionDetailModal from '@/components/CompetitionDetailModal';
 import RegistrationModal from '@/components/RegistrationModal';
 import { Competition, COMPETITIONS_DATA } from '@/lib/competitions-data';
 import Link from 'next/link';
-import { ArrowLeft, Trophy, Users, ShieldCheck, MapPin } from 'lucide-react';
-import { SheriffBadgeIcon, CowboyHatIcon, HorseshoeIcon } from '@/components/WesternSvg';
-import { SheriffStarLarge, BarbedWireDivider, RopeDivider, WantedPosterOrnament } from '@/components/WesternAssets';
+import { Trophy, MapPin } from 'lucide-react';
+import { SheriffBadgeIcon, HorseshoeIcon } from '@/components/WesternSvg';
 
 export default function LombaPage() {
   const [selectedCompForDetail, setSelectedCompForDetail] = useState<Competition | null>(null);
@@ -39,21 +38,12 @@ export default function LombaPage() {
 
   return (
     <div className="relative min-h-screen bg-[#120b06] text-[#f7ecdb] flex flex-col font-sans selection:bg-[#ca8a04] selection:text-black">
-      {/* Navbar */}
+      {/* Floating Navbar */}
       <Navbar onRegisterClick={() => handleOpenRegister()} />
 
       <main className="flex-1 pt-24 pb-16">
-        {/* Breadcrumb & Western Sub-Hero */}
+        {/* Western Sub-Hero Banner (Tombol Back Dihapus Sesuai Permintaan) */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-xs font-cowboy text-[#caa27d] hover:text-[#fde047] transition-colors mb-6 group"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>Kembali ke Pintu Gerbang & Rute Utama ISFEST 2027</span>
-          </Link>
-
-          {/* Saloon Header Banner */}
           <div className="relative wanted-card p-6 sm:p-8 rounded-2xl border-2 border-[#ca8a04] shadow-2xl overflow-hidden">
             <div className="brass-pin pin-tl" />
             <div className="brass-pin pin-tr" />
@@ -79,7 +69,7 @@ export default function LombaPage() {
                   </p>
                 </div>
 
-                {/* Right Badge Box */}
+                {/* Right Bounty Box */}
                 <div className="wood-board p-4 rounded-xl border border-[#783e1c] text-center shrink-0 w-full md:w-auto">
                   <div className="flex items-center justify-center gap-2 mb-1">
                     <Trophy className="w-5 h-5 text-[#fde047]" />
@@ -92,14 +82,14 @@ export default function LombaPage() {
                   </span>
                   <button
                     onClick={() => handleOpenRegister()}
-                    className="mt-3 w-full py-2 px-4 rounded-lg font-cowboy text-xs text-[#fff4e0] btn-leather cursor-pointer"
+                    className="mt-3 w-full py-2 px-4 rounded-lg font-cowboy text-xs text-[#fff4e0] btn-leather cursor-pointer shadow-md"
                   >
                     DAFTAR SEKARANG
                   </button>
                 </div>
               </div>
 
-              {/* Decorative bottom ornament */}
+              {/* Decorative bottom line */}
               <div className="mt-4 pt-3 border-t border-[#381c0c] flex items-center justify-between text-[11px] text-[#caa27d]">
                 <div className="flex items-center gap-2">
                   <HorseshoeIcon className="w-3.5 h-3.5 text-[#d97706]" />
@@ -107,7 +97,7 @@ export default function LombaPage() {
                 </div>
                 <Link href="/#linimasa" className="hover:text-[#fde047] font-cowboy hidden sm:inline-flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>Lihat Rute Ekspedisi</span>
+                  <span>Lihat Rute Linimasa</span>
                 </Link>
               </div>
             </div>

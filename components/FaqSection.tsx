@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { FAQS_DATA } from '@/lib/competitions-data';
-import { ChevronDown, Scroll, Crosshair, Radio } from 'lucide-react';
+import { ChevronDown, Scroll, Crosshair, Radio, Clock } from 'lucide-react';
 import { SheriffBadgeIcon } from './WesternSvg';
 
 export default function FaqSection() {
@@ -13,9 +13,9 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section id="faq" className="relative py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto mb-14">
+      <div className="text-center max-w-3xl mx-auto mb-12">
         <div className="inline-block mb-3">
           <span className="cowboy-stamp text-xs font-semibold px-3.5 py-1 rounded flex items-center gap-1.5">
             <SheriffBadgeIcon className="w-3.5 h-3.5 text-[#d97706]" />
@@ -26,7 +26,7 @@ export default function FaqSection() {
           BALAI WARGA & FAQ
         </h2>
         <p className="text-[#d8be9b] text-sm sm:text-base leading-relaxed">
-          Temukan traktat kejelasan mengenai keikutsertaan tim, upeti pendaftaran, dan sistem duel
+          Temukan traktat kejelasan mengenai keikutsertaan tim, upeti pendaftaran via blu by BCA, dan sistem duel
           sebelum timmu melangkah ke arena festival.
         </p>
       </div>
@@ -64,70 +64,63 @@ export default function FaqSection() {
         })}
       </div>
 
-      {/* Contact Cards Section: Telegraph Office */}
+      {/* Contact Cards Section: Telegraph Office (CP COMING SOON SESUAI INSTRUKSI USER) */}
       <div id="kontak" className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
+          <div className="inline-block mb-2">
+            <span className="text-[10px] font-cowboy px-2.5 py-0.5 rounded bg-[#381c0c] text-[#fde047] border border-[#d97706]/40 uppercase tracking-wider">
+              INFORMASI NARAHUBUNG
+            </span>
+          </div>
           <h3 className="font-cowboy text-xl sm:text-2xl text-[#fef9c3] mb-2">
-            KANTOR TELEGRAF BIRO SHERIFF
+            KANTOR TELEGRAF BIRO PANITIA
           </h3>
           <p className="text-xs text-[#d8be9b]">
-            Para Marsekal panitia kami berjaga di pos telegraf untuk menjawab pertanyaan seputar sayembara.
+            Daftar kontak resmi Marsekal panitia pelaksana sedang dipersiapkan dan akan segera diumumkan.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="wood-board p-5 rounded-xl border border-[#6b4423] flex flex-col justify-between">
+          <div className="wood-board p-5 rounded-xl border border-[#6b4423] flex flex-col justify-between text-center sm:text-left">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-[#2a1408] border border-[#783e1c] flex items-center justify-center text-[#f6c085] mb-3">
+              <div className="w-10 h-10 rounded-xl bg-[#2a1408] border border-[#783e1c] flex items-center justify-center text-[#f6c085] mb-3 mx-auto sm:mx-0">
                 <Scroll className="w-5 h-5 text-[#d97706]" />
               </div>
               <h4 className="font-cowboy text-xs text-[#fef08a] mb-1">Marsekal Akademik</h4>
-              <p className="text-[11px] text-[#c29b75] mb-2">Kevin Sakia (UI/UX & Data)</p>
+              <p className="text-[11px] text-[#c29b75] mb-3">UI/UX & Data Analytics</p>
             </div>
-            <a
-              href="https://wa.me/6282110683255?text=Halo%20Marsekal%20Kevin,%20saya%20ingin%20tanya%20seputar%20Sayembara%20Akademik%20ISFEST%202027"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-cowboy text-[#fde047] hover:underline"
-            >
-              WhatsApp: 0821-1068-3255
-            </a>
+            <div className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs font-cowboy text-[#ca8a04] bg-[#200f07] py-1.5 px-3 rounded-lg border border-[#4a2610]">
+              <Clock className="w-3.5 h-3.5" />
+              <span>Coming Soon</span>
+            </div>
           </div>
 
-          <div className="wood-board p-5 rounded-xl border border-[#6b4423] flex flex-col justify-between">
+          <div className="wood-board p-5 rounded-xl border border-[#6b4423] flex flex-col justify-between text-center sm:text-left">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-[#2a1408] border border-[#783e1c] flex items-center justify-center text-[#f6c085] mb-3">
+              <div className="w-10 h-10 rounded-xl bg-[#2a1408] border border-[#783e1c] flex items-center justify-center text-[#f6c085] mb-3 mx-auto sm:mx-0">
                 <Crosshair className="w-5 h-5 text-[#d97706]" />
               </div>
               <h4 className="font-cowboy text-xs text-[#fef08a] mb-1">Marsekal E-Sports</h4>
-              <p className="text-[11px] text-[#c29b75] mb-2">Richard & Jonathan (MLBB & Valo)</p>
+              <p className="text-[11px] text-[#c29b75] mb-3">Mobile Legends & Valorant</p>
             </div>
-            <a
-              href="https://wa.me/6281210416870?text=Halo%20Marsekal,%20saya%20ingin%20tanya%20seputar%20Turnamen%20Esports%20ISFEST%202027"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-cowboy text-[#fde047] hover:underline"
-            >
-              WhatsApp: 0812-1041-6870
-            </a>
+            <div className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs font-cowboy text-[#ca8a04] bg-[#200f07] py-1.5 px-3 rounded-lg border border-[#4a2610]">
+              <Clock className="w-3.5 h-3.5" />
+              <span>Coming Soon</span>
+            </div>
           </div>
 
-          <div className="wood-board p-5 rounded-xl border border-[#6b4423] flex flex-col justify-between">
+          <div className="wood-board p-5 rounded-xl border border-[#6b4423] flex flex-col justify-between text-center sm:text-left">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-[#2a1408] border border-[#783e1c] flex items-center justify-center text-[#f6c085] mb-3">
+              <div className="w-10 h-10 rounded-xl bg-[#2a1408] border border-[#783e1c] flex items-center justify-center text-[#f6c085] mb-3 mx-auto sm:mx-0">
                 <Radio className="w-5 h-5 text-[#d97706]" />
               </div>
-              <h4 className="font-cowboy text-xs text-[#fef08a] mb-1">Humas & Sponsor</h4>
-              <p className="text-[11px] text-[#c29b75] mb-2">Audrey Imanuella</p>
+              <h4 className="font-cowboy text-xs text-[#fef08a] mb-1">Humas & Biro Kemitraan</h4>
+              <p className="text-[11px] text-[#c29b75] mb-3">Sponsorship & Informasi Umum</p>
             </div>
-            <a
-              href="https://wa.me/6281293520532?text=Halo%20Marsekal%20Audrey,%20saya%20ingin%20tanya%20seputar%20ISFEST%202027"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-cowboy text-[#fde047] hover:underline"
-            >
-              WhatsApp: 0812-9352-0532
-            </a>
+            <div className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs font-cowboy text-[#ca8a04] bg-[#200f07] py-1.5 px-3 rounded-lg border border-[#4a2610]">
+              <Clock className="w-3.5 h-3.5" />
+              <span>Coming Soon</span>
+            </div>
           </div>
         </div>
       </div>

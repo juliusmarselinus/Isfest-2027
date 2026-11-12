@@ -11,6 +11,8 @@ import {
   TumbleweedSvg, 
   NightSkyDecor,
   WantedPosterOrnament,
+  GallopingHorseSvg,
+  SheriffStarPlaque,
 } from './WesternAssets';
 
 interface HeroSectionProps {
@@ -27,7 +29,7 @@ export default function HeroSection({ onRegisterClick, onExploreRouteClick }: He
   });
 
   useEffect(() => {
-    const targetDate = new Date('2027-07-25T23:59:59+07:00').getTime();
+    const targetDate = new Date('2027-07-12T23:59:59+07:00').getTime();
     const updateTimer = () => {
       const now = new Date().getTime();
       const difference = targetDate - now;
@@ -60,7 +62,7 @@ export default function HeroSection({ onRegisterClick, onExploreRouteClick }: He
     <section
       id="beranda"
       className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #060301 0%, #0d0603 25%, #180e06 55%, #221109 80%, #120b06 100%)' }}
+      style={{ background: 'linear-gradient(180deg, #120904 0%, #1c0f08 25%, #2a150b 55%, #3d1e0d 80%, #201108 100%)' }}
     >
       {/* ── NIGHT SKY WITH STARS ── */}
       <div className="absolute top-0 left-0 right-0 pointer-events-none">
@@ -204,8 +206,15 @@ export default function HeroSection({ onRegisterClick, onExploreRouteClick }: He
           <CowboyHatLarge className="w-28 h-20 drop-shadow-[0_8px_24px_rgba(202,138,4,0.35)]" />
         </div>
 
-        {/* Title */}
-        <div className="mb-5">
+        {/* Title & Flanking Horses */}
+        <div className="mb-5 relative">
+          <div className="hidden lg:block absolute left-4 top-1/2 -translate-y-1/2 opacity-75">
+            <GallopingHorseSvg className="w-24 h-16 text-[#ca8a04]" />
+          </div>
+          <div className="hidden lg:block absolute right-4 top-1/2 -translate-y-1/2 opacity-75 scale-x-[-1]">
+            <GallopingHorseSvg className="w-24 h-16 text-[#ca8a04]" />
+          </div>
+
           <span className="block text-xs sm:text-sm font-cowboy tracking-[0.3em] text-[#d97706] uppercase mb-2">
             THE WILD WEST DIGITAL FRONTIER
           </span>
@@ -270,7 +279,7 @@ export default function HeroSection({ onRegisterClick, onExploreRouteClick }: He
         >
           <div className="flex items-center justify-center gap-2 text-[#f6c085] font-cowboy text-[11px] tracking-widest uppercase mb-3">
             <Clock className="w-3.5 h-3.5 text-[#d97706]" />
-            <span>WAVE 1 (EARLY BIRD) BERAKHIR: 25 JULI 2027</span>
+            <span>WAVE 1 (EARLY BIRD) BERAKHIR: 12 JULI 2027</span>
           </div>
           <div className="grid grid-cols-4 gap-2 text-center">
             {[

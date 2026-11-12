@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { SheriffBadgeIcon } from './WesternSvg';
 
 export default function Footer() {
@@ -33,65 +34,65 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links: 4 Competitions */}
           <div className="space-y-3">
             <h5 className="font-cowboy text-xs text-[#fde047] uppercase tracking-wider">
-              Papan Sayembara
+              Papan Sayembara (4 Lomba)
             </h5>
             <ul className="space-y-2 text-[#caa27d]">
               <li>
-                <a href="#lomba" className="hover:text-[#fef08a] transition-colors">
-                  UI/UX Cartographer
-                </a>
+                <Link href="/lomba#uiux" className="hover:text-[#fef08a] transition-colors">
+                  UI/UX Cartographer (Akademik)
+                </Link>
               </li>
               <li>
-                <a href="#lomba" className="hover:text-[#fef08a] transition-colors">
-                  Data Prospector & AI
-                </a>
+                <Link href="/lomba#data" className="hover:text-[#fef08a] transition-colors">
+                  Data Prospector & AI (Akademik)
+                </Link>
               </li>
               <li>
-                <a href="#lomba" className="hover:text-[#fef08a] transition-colors">
-                  Web & Fortress Dev
-                </a>
+                <Link href="/lomba#mlbb" className="hover:text-[#fef08a] transition-colors">
+                  Mobile Legends Posse (Esports)
+                </Link>
               </li>
               <li>
-                <a href="#lomba" className="hover:text-[#fef08a] transition-colors">
-                  Mobile Legends Posse
-                </a>
+                <Link href="/lomba#valo" className="hover:text-[#fef08a] transition-colors">
+                  Valorant High Noon (Esports)
+                </Link>
               </li>
               <li>
-                <a href="#lomba" className="hover:text-[#fef08a] transition-colors">
-                  Valorant High Noon
-                </a>
+                <Link href="/lomba" className="text-[#fde047] font-semibold hover:underline">
+                  → Buka Seluruh Sayembara
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Connect & Help */}
+          {/* Connect & Navigation */}
           <div className="space-y-3">
             <h5 className="font-cowboy text-xs text-[#fde047] uppercase tracking-wider">
-              Pos Telegraf
+              Pos Telegraf & Balai
             </h5>
             <ul className="space-y-2 text-[#caa27d]">
               <li>
-                <a href="#beranda" className="hover:text-[#fef08a] transition-colors">
+                <Link href="/" className="hover:text-[#fef08a] transition-colors">
                   Pintu Gerbang Utama
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#linimasa" className="hover:text-[#fef08a] transition-colors">
+                <Link href="/#linimasa" className="hover:text-[#fef08a] transition-colors">
                   Rute & Peta Ekspedisi
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#faq" className="hover:text-[#fef08a] transition-colors">
-                  Balai Tanya Jawab
-                </a>
+                <Link href="/faq" className="hover:text-[#fef08a] transition-colors">
+                  Balai Tanya Jawab (FAQ)
+                </Link>
               </li>
               <li>
-                <a href="#kontak" className="hover:text-[#fef08a] transition-colors">
-                  Kantor Marsekal
-                </a>
+                <Link href="/faq#kontak" className="hover:text-[#fef08a] transition-colors">
+                  Kantor Marsekal Panitia
+                </Link>
               </li>
               <li>
                 <a

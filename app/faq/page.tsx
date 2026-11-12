@@ -6,8 +6,6 @@ import FaqSection from '@/components/FaqSection';
 import Footer from '@/components/Footer';
 import RegistrationModal from '@/components/RegistrationModal';
 import { Competition, COMPETITIONS_DATA } from '@/lib/competitions-data';
-import Link from 'next/link';
-import { ArrowLeft, Scroll } from 'lucide-react';
 import { SheriffBadgeIcon } from '@/components/WesternSvg';
 
 export default function FaqPage() {
@@ -21,20 +19,12 @@ export default function FaqPage() {
 
   return (
     <div className="relative min-h-screen bg-[#120b06] text-[#f7ecdb] flex flex-col font-sans selection:bg-[#ca8a04] selection:text-black">
+      {/* Floating Navbar */}
       <Navbar onRegisterClick={() => handleOpenRegister()} />
 
       <main className="flex-1 pt-24 pb-16">
-        {/* Breadcrumb */}
+        {/* Banner (Tombol Back Dihapus Sesuai Permintaan) */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-xs font-cowboy text-[#caa27d] hover:text-[#fde047] transition-colors mb-6 group"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>Kembali ke Pintu Gerbang Utama ISFEST 2027</span>
-          </Link>
-
-          {/* Banner */}
           <div className="relative wanted-card p-6 sm:p-8 rounded-2xl border-2 border-[#783e1c] shadow-2xl">
             <div className="brass-pin pin-tl" />
             <div className="brass-pin pin-tr" />
@@ -52,7 +42,7 @@ export default function FaqPage() {
                 BALAI TANYA JAWAB & KANTOR TELEGRAF
               </h1>
               <p className="text-xs text-[#d8be9b] max-w-3xl leading-relaxed">
-                Temukan kejelasan traktat resmi mengenai alur perlombaan, upeti pendaftaran, dan kontak langsung para Marsekal panitia ISFEST 2027.
+                Temukan kejelasan traktat resmi mengenai alur perlombaan, upeti pendaftaran, dan informasi narahubung panitia ISFEST 2027.
               </p>
             </div>
           </div>

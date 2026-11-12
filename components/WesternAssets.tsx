@@ -598,3 +598,70 @@ export function WantedFrameOrnament({ className = 'w-full h-8' }: { className?: 
     </svg>
   );
 }
+
+
+// ─── GALLOPING WILD HORSE & STALLION SILHOUETTE ──────────────────────────────
+export function GallopingHorseSvg({ className = 'w-24 h-16' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 120 80"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Horse body & limbs in powerful gallop */}
+      <path
+        d="M20 54 Q15 62 8 68 Q18 64 24 58 L32 46 Q40 44 54 44 Q68 44 76 38 L84 28 Q88 20 92 16 Q96 12 102 12 Q108 12 110 16 Q108 20 102 24 L96 32 Q92 40 88 44 L98 62 Q102 70 112 74 Q100 72 94 62 L84 48 Q76 52 64 52 L56 68 Q52 76 44 78 Q48 72 50 64 L54 52 L42 50 L34 54 L20 54 Z"
+        fill="url(#horseGrad)"
+      />
+      {/* Flowing Mane & Tail */}
+      <path
+        d="M84 22 Q78 18 74 24 Q80 26 84 22 Z M18 52 Q6 48 2 40 Q8 46 16 48 Z"
+        fill="#f59e0b"
+        opacity="0.8"
+      />
+      {/* Ground dust puff beneath hooves */}
+      <ellipse cx="26" cy="66" rx="8" ry="2" fill="#ca8a04" opacity="0.3" />
+      <ellipse cx="98" cy="70" rx="10" ry="2.5" fill="#ca8a04" opacity="0.3" />
+      <defs>
+        <linearGradient id="horseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#ca8a04" />
+          <stop offset="45%" stopColor="#854d0e" />
+          <stop offset="100%" stopColor="#451a03" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+// ─── SHERIFF STAR DECORATIVE PLAQUE ──────────────────────────────────────────
+export function SheriffStarPlaque({ className = 'w-12 h-12' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="32" cy="32" r="28" fill="#2a1408" stroke="#ca8a04" strokeWidth="2" />
+      <circle cx="32" cy="32" r="25" stroke="#fde047" strokeWidth="0.75" strokeDasharray="3 2" />
+      {/* 6-point Sheriff star */}
+      <polygon
+        points="32,10 36,22 49,22 39,30 43,43 32,35 21,43 25,30 15,22 28,22"
+        fill="url(#sheriffStarGrad)"
+        stroke="#fde047"
+        strokeWidth="1"
+      />
+      <circle cx="32" cy="32" r="5" fill="#451a03" stroke="#ca8a04" strokeWidth="1" />
+      <defs>
+        <linearGradient id="sheriffStarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#fef08a" />
+          <stop offset="60%" stopColor="#d97706" />
+          <stop offset="100%" stopColor="#78350f" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}

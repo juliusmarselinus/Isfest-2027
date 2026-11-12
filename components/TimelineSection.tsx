@@ -55,7 +55,7 @@ export default function TimelineSection() {
                     <div className="brass-pin pin-bl" />
                     <div className="brass-pin pin-br" />
 
-                    <div className="rope-border p-3.5 bg-[#1a0e07]/80 rounded-xl">
+                    <div className="rope-border p-3.5 bg-[#25140b]/90 rounded-xl">
                       <div className="flex items-center justify-between gap-2 mb-2">
                         <span className="font-cowboy text-xs text-[#fde047] px-2 py-0.5 rounded bg-[#451a03] border border-[#a16207]">
                           POS {item.phase}
