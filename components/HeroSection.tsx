@@ -256,6 +256,159 @@ export default function HeroSection({ onRegisterClick, onExploreRouteClick }: He
         <TumbleweedSvg className="w-8 h-8" />
       </div>
 
+      {/* ── SUN CIRCLE IN SKY ── */}
+      <div className="absolute top-[8%] left-1/2 -translate-x-1/2 pointer-events-none z-[2]">
+        <svg viewBox="0 0 120 120" className="w-24 h-24 sm:w-32 sm:h-32 opacity-85" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="sunGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stopColor="#fff4a0" />
+              <stop offset="50%" stopColor="#ffd040" />
+              <stop offset="100%" stopColor="#f5900a" />
+            </radialGradient>
+          </defs>
+          {/* Sun rays */}
+          {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg) => (
+            <line
+              key={deg}
+              x1="60" y1="60"
+              x2={60 + 52 * Math.cos((deg - 90) * Math.PI / 180)}
+              y2={60 + 52 * Math.sin((deg - 90) * Math.PI / 180)}
+              stroke="#ffd040" strokeWidth="2.5" strokeLinecap="round" opacity="0.6"
+            />
+          ))}
+          <circle cx="60" cy="60" r="28" fill="url(#sunGrad)" />
+          <circle cx="60" cy="60" r="22" fill="#fff4a0" opacity="0.5" />
+        </svg>
+      </div>
+
+      {/* ── FLYING VULTURES / BIRDS ── */}
+      <div className="absolute top-[18%] left-[18%] pointer-events-none z-[2] opacity-70">
+        <svg viewBox="0 0 80 30" className="w-16 h-6" xmlns="http://www.w3.org/2000/svg">
+          {/* Bird 1 */}
+          <path d="M10 15 Q20 5 30 15 Q20 10 10 15Z" fill="#28150d" />
+          <path d="M30 15 Q40 5 50 15 Q40 10 30 15Z" fill="#28150d" />
+          {/* Bird 2 smaller */}
+          <path d="M55 10 Q62 4 70 10 Q62 7 55 10Z" fill="#28150d" opacity="0.7" />
+          <path d="M70 10 Q76 4 80 10 Q76 7 70 10Z" fill="#28150d" opacity="0.7" />
+        </svg>
+      </div>
+      <div className="absolute top-[14%] right-[22%] pointer-events-none z-[2] opacity-55">
+        <svg viewBox="0 0 60 25" className="w-12 h-5" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 12 Q14 4 24 12 Q14 8 5 12Z" fill="#28150d" />
+          <path d="M24 12 Q32 4 42 12 Q32 8 24 12Z" fill="#28150d" />
+          <path d="M45 8 Q51 3 57 8 Q51 5 45 8Z" fill="#28150d" opacity="0.6" />
+        </svg>
+      </div>
+
+      {/* ── LEFT SIDE: WANTED POSTER ── */}
+      <div className="absolute left-[2%] xl:left-[5%] top-[28%] pointer-events-none z-[3] hidden lg:block">
+        <div
+          className="w-28 xl:w-36 rotate-[-4deg]"
+          style={{
+            filter: 'drop-shadow(4px 8px 12px rgba(0,0,0,0.5))',
+          }}
+        >
+          <svg viewBox="0 0 140 190" xmlns="http://www.w3.org/2000/svg" className="w-full">
+            {/* Wood plank background */}
+            <rect x="0" y="0" width="140" height="190" rx="4" fill="#6b3a1f" />
+            {/* Paper */}
+            <rect x="6" y="6" width="128" height="178" rx="2" fill="#f5e8c8" />
+            {/* Inner border */}
+            <rect x="10" y="10" width="120" height="170" rx="1" fill="none" stroke="#8b4513" strokeWidth="2" strokeDasharray="4,2" />
+            {/* WANTED text */}
+            <text x="70" y="38" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="20" fill="#8b1a1a" letterSpacing="3">WANTED</text>
+            {/* Star badge */}
+            <polygon points="70,52 74,64 87,64 76,72 80,84 70,76 60,84 64,72 53,64 66,64" fill="#d4a017" stroke="#8b6914" strokeWidth="1" />
+            {/* Face silhouette */}
+            <ellipse cx="70" cy="108" rx="24" ry="28" fill="#c8956a" />
+            <rect x="52" y="108" width="36" height="20" rx="4" fill="#c8956a" />
+            {/* Hat */}
+            <rect x="48" y="82" width="44" height="8" rx="2" fill="#28150d" />
+            <rect x="56" y="62" width="28" height="22" rx="3" fill="#28150d" />
+            {/* Eyes */}
+            <circle cx="61" cy="104" r="3" fill="#28150d" />
+            <circle cx="79" cy="104" r="3" fill="#28150d" />
+            {/* Mustache */}
+            <path d="M62 114 Q70 118 78 114" stroke="#28150d" strokeWidth="2" fill="none" strokeLinecap="round" />
+            {/* DEAD OR ALIVE */}
+            <text x="70" y="150" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="8" fill="#8b1a1a" letterSpacing="1">DEAD OR ALIVE</text>
+            {/* Prize */}
+            <text x="70" y="166" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="10" fill="#28150d">RP 95.000</text>
+            {/* Nail top */}
+            <circle cx="70" cy="4" r="5" fill="#c8a060" stroke="#8b6914" strokeWidth="1" />
+          </svg>
+        </div>
+      </div>
+
+      {/* ── RIGHT SIDE: SHERIFF STAR + SALOON SIGN ── */}
+      <div className="absolute right-[2%] xl:right-[5%] top-[26%] pointer-events-none z-[3] hidden lg:block">
+        <div className="flex flex-col items-center gap-4">
+          {/* Saloon sign hanging */}
+          <div
+            className="w-32 xl:w-40 rotate-[3deg]"
+            style={{ filter: 'drop-shadow(4px 8px 12px rgba(0,0,0,0.45))' }}
+          >
+            <svg viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" className="w-full">
+              {/* Chains */}
+              <line x1="30" y1="0" x2="30" y2="12" stroke="#8b6914" strokeWidth="2.5" strokeDasharray="3,2" />
+              <line x1="130" y1="0" x2="130" y2="12" stroke="#8b6914" strokeWidth="2.5" strokeDasharray="3,2" />
+              {/* Sign board */}
+              <rect x="4" y="12" width="152" height="80" rx="6" fill="#6b3a1f" />
+              <rect x="8" y="16" width="144" height="72" rx="4" fill="#c8832a" />
+              <rect x="12" y="20" width="136" height="64" rx="3" fill="#b5721e" />
+              {/* Border ornament */}
+              <rect x="14" y="22" width="132" height="60" rx="2" fill="none" stroke="#f6d19e" strokeWidth="1.5" />
+              {/* SALOON text */}
+              <text x="80" y="52" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="22" fill="#f6d19e" letterSpacing="4">SALOON</text>
+              <text x="80" y="68" textAnchor="middle" fontFamily="serif" fontSize="9" fill="#f6d19e" letterSpacing="2">ISFEST 2027</text>
+              {/* Stars left right */}
+              <polygon points="22,45 24,51 30,51 25,55 27,61 22,57 17,61 19,55 14,51 20,51" fill="#f6d19e" opacity="0.8" />
+              <polygon points="138,45 140,51 146,51 141,55 143,61 138,57 133,61 135,55 130,51 136,51" fill="#f6d19e" opacity="0.8" />
+            </svg>
+          </div>
+
+          {/* Big Sheriff Star */}
+          <div
+            className="rotate-[8deg] mt-2"
+            style={{ filter: 'drop-shadow(3px 6px 10px rgba(0,0,0,0.5))' }}
+          >
+            <svg viewBox="0 0 80 80" className="w-16 xl:w-20 h-16 xl:h-20" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="starGold" cx="40%" cy="30%" r="65%">
+                  <stop offset="0%" stopColor="#ffe680" />
+                  <stop offset="60%" stopColor="#d4a017" />
+                  <stop offset="100%" stopColor="#8b6400" />
+                </radialGradient>
+              </defs>
+              {/* 6-point star */}
+              <polygon
+                points="40,4 46,28 70,28 50,44 58,68 40,54 22,68 30,44 10,28 34,28"
+                fill="url(#starGold)"
+                stroke="#8b6400"
+                strokeWidth="1.5"
+              />
+              {/* Circle center */}
+              <circle cx="40" cy="40" r="12" fill="#f5e070" stroke="#8b6400" strokeWidth="1.5" />
+              {/* Badge text */}
+              <text x="40" y="44" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="7" fill="#28150d">SHERIFF</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      {/* ── DECORATIVE BARBED WIRE HORIZONTAL (kiri & kanan bawah langit) ── */}
+      <div className="absolute top-[55%] left-0 right-0 pointer-events-none z-[2] opacity-30 hidden xl:block">
+        <svg viewBox="0 0 1440 20" className="w-full" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="10" x2="1440" y2="10" stroke="#28150d" strokeWidth="1.5" />
+          {Array.from({length: 36}).map((_, i) => (
+            <g key={i} transform={`translate(${i * 40 + 10}, 10)`}>
+              <line x1="-4" y1="-4" x2="4" y2="4" stroke="#28150d" strokeWidth="1.5" />
+              <line x1="4" y1="-4" x2="-4" y2="4" stroke="#28150d" strokeWidth="1.5" />
+            </g>
+          ))}
+        </svg>
+      </div>
+
       {/* ── MAIN HERO CONTENT ── */}
       <div className="relative z-10 max-w-5xl mx-auto text-center w-full pb-[200px]">
 
