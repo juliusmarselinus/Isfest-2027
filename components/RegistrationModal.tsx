@@ -184,8 +184,9 @@ export default function RegistrationModal({
         {/* ── HEADER (TERRACOTTA & ESPRESSO) ── */}
         <div className="p-4 sm:p-5 border-b-2 border-[#28150d] bg-[#be592e] text-[#fffbf5] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#28150d] border-2 border-[#fbf5eb] flex items-center justify-center text-[#fde047] shadow-md shrink-0">
-              <SheriffBadgeIcon className="w-5 h-5 text-[#fde047]" />
+            <div className="w-11 h-11 rounded-xl bg-[#28150d] border-2 border-[#fbf5eb] flex items-center justify-center shadow-md shrink-0 p-1">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/assets/cowboy/cowboy-standing.png" alt="Cowboy Mascot" className="w-8 h-auto object-contain" />
             </div>
             <div>
               <div className="flex items-center gap-1.5 mb-0.5">
@@ -731,7 +732,12 @@ export default function RegistrationModal({
           {step === 5 && (
             <div className="text-center space-y-4 py-2 animate-in zoom-in-95 duration-200">
               <div className="flex justify-center">
-                <SheriffStarLarge className="w-20 h-20 drop-shadow-[0_4px_16px_rgba(190,89,46,0.5)]" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/cowboy/cowboy-riding-horse.png"
+                  alt="Cowboy Posse Champion"
+                  className="w-36 h-auto drop-shadow-xl animate-bounce duration-1000"
+                />
               </div>
 
               <div>

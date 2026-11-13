@@ -90,12 +90,12 @@ export default function LombaPage() {
               </div>
 
               {/* Decorative bottom line */}
-              <div className="mt-4 pt-3 border-t border-[#381c0c] flex items-center justify-between text-[11px] text-[#caa27d]">
+              <div className="mt-4 pt-3 border-t-2 border-[#be592e]/30 flex items-center justify-between text-[11px] text-[#5c3a21] font-semibold">
                 <div className="flex items-center gap-2">
-                  <HorseshoeIcon className="w-3.5 h-3.5 text-[#d97706]" />
+                  <HorseshoeIcon className="w-3.5 h-3.5 text-[#be592e]" />
                   <span>Sertifikat Nasional Berpredikat dari Universitas Multimedia Nusantara</span>
                 </div>
-                <Link href="/#linimasa" className="hover:text-[#fde047] font-cowboy hidden sm:inline-flex items-center gap-1">
+                <Link href="/#linimasa" className="hover:text-[#be592e] font-cowboy hidden sm:inline-flex items-center gap-1 transition-colors">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>Lihat Rute Linimasa</span>
                 </Link>

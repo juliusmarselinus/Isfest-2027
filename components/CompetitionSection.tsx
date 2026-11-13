@@ -117,40 +117,44 @@ export default function CompetitionSection({ onViewDetail, onRegister }: Competi
           ))}
         </div>
       ) : (
-        <div className="wood-board text-center py-16 px-4 rounded-2xl border border-[#5a3014] max-w-md mx-auto">
-          <Compass className="w-8 h-8 text-[#caa27d] mx-auto mb-2" />
-          <p className="font-cowboy text-[#eed9b3] text-sm mb-1">Tidak ada lomba yang sesuai pencarian.</p>
-          <p className="text-xs text-[#a67c52] mb-4">Coba cari dengan kata kunci lain atau reset filter.</p>
+        <div className="wood-board text-center py-16 px-4 rounded-2xl border-2 border-[#be592e] bg-[#fbf5ea] max-w-md mx-auto shadow-md">
+          <Compass className="w-8 h-8 text-[#be592e] mx-auto mb-2" />
+          <p className="font-cowboy text-[#28150d] text-sm mb-1">Tidak ada lomba yang sesuai pencarian.</p>
+          <p className="text-xs text-[#5c3a21] mb-4">Coba cari dengan kata kunci lain atau reset filter.</p>
           <button
             onClick={() => {
               setActiveTab('all');
               setSearchQuery('');
             }}
-            className="px-4 py-2 rounded-lg text-xs font-cowboy text-[#fef08a] bg-[#2a1408] border border-[#783e1c]"
+            className="px-4 py-2 rounded-lg text-xs font-cowboy text-[#fffbf5] btn-leather cursor-pointer shadow-md"
           >
             Tampilkan Semua Lomba
           </button>
         </div>
       )}
 
-      {/* Telegraph Banner */}
-      <div className="mt-14 max-w-5xl mx-auto wood-board p-6 sm:p-8 rounded-2xl border-2 border-[#783e1c] flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
+      {/* Telegraph Banner (Warm Cream & Terracotta) */}
+      <div className="mt-14 max-w-5xl mx-auto wanted-card p-6 sm:p-8 rounded-2xl border-4 border-[#be592e] flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden bg-[#fbf5ea]">
         <div className="brass-pin pin-tl" />
         <div className="brass-pin pin-tr" />
         <div className="brass-pin pin-bl" />
         <div className="brass-pin pin-br" />
 
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-[#2a1408] border border-[#d97706]/40 flex items-center justify-center text-xl shrink-0 text-[#fde047]">
-            <Radio className="w-6 h-6 text-[#d97706]" />
+          <div className="w-14 h-14 rounded-2xl bg-[#f0e4cf] border-2 border-[#be592e] flex items-center justify-center text-xl shrink-0 text-[#be592e] shadow-inner p-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/assets/cowboy/cowboy-sitting.png" alt="Cowboy Operator" className="w-10 h-auto object-contain" />
           </div>
           <div>
-            <h4 className="font-cowboy text-base text-[#fef08a] mb-1">
+            <div className="cowboy-stamp text-[9px] font-bold text-[#be592e] mb-1 inline-block">
+              ★ SALURAN TELEGRAF RESMI ★
+            </div>
+            <h4 className="font-cowboy text-base sm:text-lg text-[#28150d] mb-0.5">
               KANTOR TELEGRAF BIRO PANITIA
             </h4>
-            <p className="text-xs text-[#eed9b3]">
+            <p className="text-xs text-[#5c3a21] font-medium leading-relaxed">
               Butuh panduan teknis, rulebook resmi, atau ingin bertanya mengenai pendaftaran tim posse?
-              Kirim kawat telegraf langsung ke narahubung panitia.
+              Kirim kawat telegraf langsung ke narahubung panitia ISFEST 2027.
             </p>
           </div>
         </div>
@@ -159,7 +163,7 @@ export default function CompetitionSection({ onViewDetail, onRegister }: Competi
           href="https://wa.me/6282110683255?text=Halo%20Panitia%20ISFEST%202027,%20saya%20ingin%20tanya%20seputar%20sayembara%20lomba"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-xs font-cowboy text-[#fff4e0] btn-leather transition-all shrink-0 cursor-pointer shadow-lg hover:scale-105"
+          className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-xs font-cowboy text-[#fffbf5] btn-leather transition-all shrink-0 cursor-pointer shadow-lg hover:scale-105"
         >
           KIRIM KAWAT TELEGRAF (WHATSAPP)
         </a>

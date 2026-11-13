@@ -1,13 +1,21 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useScroll,
+} from 'framer-motion';
 import { ChevronDown, Trophy, ArrowRight, Clock, Scroll, Award, Users } from 'lucide-react';
-import { CowboyHatIcon, SheriffBadgeIcon } from './WesternSvg';
-import { 
-  BarbedWireDivider, 
-  TumbleweedSvg, 
-  GallopingHorseSvg,
+import {
+  CowboyHatIcon,
+  SheriffBadgeIcon,
+} from './WesternSvg';
+import {
+  BarbedWireDivider,
   RetroCowboyBadge,
   SouthwesternStarBand,
 } from './WesternAssets';
@@ -18,24 +26,21 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ onRegisterClick, onExploreRouteClick }: HeroSectionProps) {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const targetDate = new Date('2027-07-12T23:59:59+07:00').getTime();
     const updateTimer = () => {
       const now = new Date().getTime();
-      const difference = targetDate - now;
-      if (difference > 0) {
+      const diff = targetDate - now;
+      if (diff > 0) {
         setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
+          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((diff / 1000 / 60) % 60),
+          seconds: Math.floor((diff / 1000) % 60),
         });
       } else {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -50,539 +55,521 @@ export default function HeroSection({ onRegisterClick, onExploreRouteClick }: He
     if (onExploreRouteClick) {
       onExploreRouteClick();
     } else {
-      const el = document.getElementById('linimasa');
-      el?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('linimasa')?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  // ── Subtle Mouse Parallax (Background scenery only) ──
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothX = useSpring(mouseX, { stiffness: 60, damping: 25 });
+  const smoothY = useSpring(mouseY, { stiffness: 60, damping: 25 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end start'] });
+
+  const sunX = useTransform(smoothX, [-0.5, 0.5], [-8, 8]);
+  const sunY = useTransform(smoothY, [-0.5, 0.5], [-5, 5]);
+  const sunScrollY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+
+  const cloudX = useTransform(smoothX, [-0.5, 0.5], [-16, 16]);
+  const cloudY = useTransform(smoothY, [-0.5, 0.5], [-6, 6]);
+
+  const mtnX = useTransform(smoothX, [-0.5, 0.5], [-22, 22]);
+  const fgX = useTransform(smoothX, [-0.5, 0.5], [-35, 35]);
+
+  const sunRays = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
+
   return (
-    <section
+    <div
+      ref={containerRef}
       id="beranda"
-      className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden bg-canyon-twilight"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative w-full min-h-[90vh] lg:min-h-screen flex flex-col justify-between items-center overflow-hidden select-none pt-20 pb-4 px-3 sm:px-6"
+      role="region"
+      aria-label="Hero Section"
     >
-      {/* ── BRIGHT DAY SKY GRADIENT OVERLAY ── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(180deg, #87c5e8 0%, #d4a76a 40%, #c0783c 70%, #9e5223 100%)',
-        }}
-      />
+      {/* ══════════════════════════════════════════════════
+          LAYER 1 — SKY + SUN + VULTURES (z-0)
+      ══════════════════════════════════════════════════ */}
+      <motion.div
+        style={{ x: sunX, y: sunY, translateY: sunScrollY }}
+        className="pointer-events-none absolute inset-0 z-0 scale-105"
+      >
+        {/* Sky gradient — vibrant Western desert sky */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, #4f9ecf 0%, #76bde2 16%, #b6ddf2 32%, #e5cb97 52%, #d78955 72%, #b55d28 88%, #85370f 100%)',
+          }}
+        />
 
-      {/* ── BRIGHT SUN GLOW ── */}
-      <div
-        className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[80px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(255,230,140,0.7) 0%, rgba(240,180,80,0.4) 50%, transparent 80%)' }}
-      />
+        {/* Sun glowing aura */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{
+            top: '7%',
+            width: 380,
+            height: 220,
+            background:
+              'radial-gradient(ellipse, rgba(255,238,110,0.65) 0%, rgba(255,175,60,0.25) 55%, transparent 75%)',
+          }}
+        />
 
-      {/* ── WESTERN CLOUDS SVG ── */}
-      <div className="absolute top-0 left-0 right-0 w-full pointer-events-none z-[1]">
+        {/* Sun disc with stylized rays */}
+        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: '5%' }}>
+          <svg viewBox="0 0 110 110" className="w-20 h-20 sm:w-24 sm:h-24 opacity-95" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="sunDioramaG" cx="50%" cy="38%" r="62%">
+                <stop offset="0%" stopColor="#fffde6" />
+                <stop offset="40%" stopColor="#ffd340" />
+                <stop offset="100%" stopColor="#f58c0a" />
+              </radialGradient>
+            </defs>
+            {sunRays.map((deg) => (
+              <line
+                key={deg}
+                x1="55" y1="55"
+                x2={55 + 50 * Math.cos((deg - 90) * Math.PI / 180)}
+                y2={55 + 50 * Math.sin((deg - 90) * Math.PI / 180)}
+                stroke="#ffc933" strokeWidth="2.2" strokeLinecap="round" opacity="0.45"
+              />
+            ))}
+            <circle cx="55" cy="55" r="24" fill="url(#sunDioramaG)" />
+            <circle cx="55" cy="55" r="17" fill="#fffde6" opacity="0.4" />
+          </svg>
+        </div>
+
+        {/* Desert soaring vultures in sky */}
+        <div className="absolute top-[14%] left-[18%] opacity-55">
+          <svg viewBox="0 0 60 22" className="w-14 h-5" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 11 Q12 2 20 11 Q12 7 4 11Z" fill="#28150d" />
+            <path d="M20 11 Q28 2 36 11 Q28 7 20 11Z" fill="#28150d" />
+            <path d="M42 7 Q47 2 54 7 Q47 5 42 7Z" fill="#28150d" opacity="0.7" />
+          </svg>
+        </div>
+        <div className="absolute top-[12%] right-[22%] opacity-45">
+          <svg viewBox="0 0 45 18" className="w-11 h-4" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9 Q9 2 15 9 Q9 6 3 9Z" fill="#28150d" />
+            <path d="M15 9 Q21 2 27 9 Q21 6 15 9Z" fill="#28150d" />
+          </svg>
+        </div>
+      </motion.div>
+
+      {/* ══════════════════════════════════════════════════
+          LAYER 2 — FLUFFY WHITE CARTOON CLOUDS (z-10)
+      ══════════════════════════════════════════════════ */}
+      <motion.div
+        style={{ x: cloudX, y: cloudY }}
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 scale-105"
+      >
         <svg
-          viewBox="0 0 1440 260"
-          fill="none"
+          viewBox="0 0 1440 220"
+          className="w-full h-auto max-h-[140px] sm:max-h-[180px]"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full"
-          preserveAspectRatio="xMidYMin meet"
+          preserveAspectRatio="xMidYMin slice"
         >
           <defs>
-            {/* Gradient for main white cloud body */}
-            <radialGradient id="cg1" cx="50%" cy="30%" r="60%">
+            <radialGradient id="cloudGradHero" cx="45%" cy="25%" r="65%">
               <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="70%" stopColor="#f0f4f8" />
-              <stop offset="100%" stopColor="#dce8ef" />
+              <stop offset="70%" stopColor="#f0f6fa" />
+              <stop offset="100%" stopColor="#d2e3ee" />
             </radialGradient>
-            <radialGradient id="cg2" cx="40%" cy="25%" r="55%">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="65%" stopColor="#eef3f8" />
-              <stop offset="100%" stopColor="#d8e6ef" />
-            </radialGradient>
-            <radialGradient id="cg3" cx="55%" cy="30%" r="58%">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="68%" stopColor="#f2f6fa" />
-              <stop offset="100%" stopColor="#ddeaf3" />
-            </radialGradient>
-            {/* Lobe highlight gradients */}
-            <radialGradient id="lobe1" cx="40%" cy="30%" r="60%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-              <stop offset="100%" stopColor="#e8eff6" stopOpacity="0.8" />
-            </radialGradient>
-            <radialGradient id="lobe2" cx="45%" cy="25%" r="65%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-              <stop offset="100%" stopColor="#ddeaf4" stopOpacity="0.75" />
-            </radialGradient>
-            {/* Shadow / underside */}
-            <linearGradient id="underside" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#c8dce8" stopOpacity="0" />
-              <stop offset="100%" stopColor="#adc8d8" stopOpacity="0.5" />
+            <linearGradient id="cloudUnderHero" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#bcd4e4" stopOpacity="0" />
+              <stop offset="100%" stopColor="#9bbcd0" stopOpacity="0.45" />
             </linearGradient>
           </defs>
 
-          {/* ── CLOUD A (Left large fluffy) ── */}
-          <g opacity="0.95">
-            {/* Underside shadow */}
-            <ellipse cx="155" cy="118" rx="130" ry="16" fill="url(#underside)" opacity="0.5" />
-            {/* Base body */}
-            <ellipse cx="155" cy="105" rx="130" ry="38" fill="url(#cg1)" />
-            {/* Lobe far-left */}
-            <circle cx="52" cy="96" r="34" fill="url(#lobe1)" />
-            {/* Lobe left */}
-            <circle cx="90" cy="80" r="42" fill="url(#lobe1)" />
-            {/* Lobe center-left */}
-            <circle cx="130" cy="70" r="46" fill="url(#lobe2)" />
-            {/* Lobe center peak */}
-            <circle cx="168" cy="62" r="50" fill="url(#lobe1)" />
-            {/* Lobe right */}
-            <circle cx="210" cy="74" r="40" fill="url(#lobe2)" />
-            {/* Lobe far-right */}
-            <circle cx="248" cy="88" r="34" fill="url(#lobe1)" />
-            {/* Tail right */}
-            <ellipse cx="275" cy="104" rx="28" ry="18" fill="url(#cg1)" />
-            {/* Fill gaps at base */}
-            <rect x="52" y="92" width="230" height="30" rx="12" fill="url(#cg1)" />
+          {/* Cloud 1 — Big Left Anchor */}
+          <g opacity="0.96">
+            <ellipse cx="160" cy="85" rx="135" ry="24" fill="url(#cloudUnderHero)" />
+            <ellipse cx="160" cy="74" rx="130" ry="38" fill="url(#cloudGradHero)" />
+            <circle cx="50" cy="62" r="34" fill="#ffffff" />
+            <circle cx="95" cy="46" r="44" fill="#ffffff" />
+            <circle cx="145" cy="34" r="50" fill="url(#cloudGradHero)" />
+            <circle cx="200" cy="44" r="45" fill="#f8fbff" />
+            <circle cx="250" cy="58" r="35" fill="#ffffff" />
+            <rect x="50" y="52" width="200" height="34" rx="14" fill="url(#cloudGradHero)" />
           </g>
 
-          {/* ── CLOUD B (Right large fluffy) ── */}
-          <g opacity="0.90">
-            <ellipse cx="1300" cy="100" rx="115" ry="30" fill="url(#underside)" opacity="0.5" />
-            <ellipse cx="1300" cy="90" rx="112" ry="34" fill="url(#cg2)" />
-            <circle cx="1208" cy="84" r="30" fill="url(#lobe2)" />
-            <circle cx="1244" cy="68" r="40" fill="url(#lobe1)" />
-            <circle cx="1282" cy="58" r="46" fill="url(#lobe2)" />
-            <circle cx="1318" cy="62" r="42" fill="url(#lobe1)" />
-            <circle cx="1354" cy="72" r="36" fill="url(#lobe2)" />
-            <circle cx="1385" cy="85" r="28" fill="url(#lobe1)" />
-            <rect x="1208" y="80" width="195" height="26" rx="10" fill="url(#cg2)" />
+          {/* Cloud 2 — Big Right Anchor */}
+          <g opacity="0.94">
+            <ellipse cx="1280" cy="82" rx="130" ry="22" fill="url(#cloudUnderHero)" />
+            <ellipse cx="1280" cy="72" rx="125" ry="36" fill="url(#cloudGradHero)" />
+            <circle cx="1185" cy="60" r="32" fill="#ffffff" />
+            <circle cx="1230" cy="44" r="42" fill="#ffffff" />
+            <circle cx="1285" cy="34" r="48" fill="url(#cloudGradHero)" />
+            <circle cx="1340" cy="44" r="42" fill="#f8fbff" />
+            <circle cx="1385" cy="58" r="32" fill="#ffffff" />
+            <rect x="1185" y="50" width="200" height="34" rx="14" fill="url(#cloudGradHero)" />
           </g>
 
-          {/* ── CLOUD C (Center-left medium) ── */}
-          <g opacity="0.78">
-            <ellipse cx="460" cy="68" rx="80" ry="22" fill="url(#underside)" opacity="0.4" />
-            <ellipse cx="460" cy="58" rx="78" ry="26" fill="url(#cg3)" />
-            <circle cx="398" cy="52" r="24" fill="url(#lobe1)" />
-            <circle cx="430" cy="40" r="32" fill="url(#lobe2)" />
-            <circle cx="464" cy="34" r="36" fill="url(#lobe1)" />
-            <circle cx="497" cy="40" r="30" fill="url(#lobe2)" />
-            <circle cx="525" cy="51" r="23" fill="url(#lobe1)" />
-            <rect x="398" y="50" width="140" height="22" rx="8" fill="url(#cg3)" />
+          {/* Cloud 3 — Center-Left Floating */}
+          <g opacity="0.8">
+            <circle cx="440" cy="38" r="26" fill="#ffffff" />
+            <circle cx="475" cy="26" r="34" fill="url(#cloudGradHero)" />
+            <circle cx="515" cy="34" r="28" fill="#f8fbff" />
+            <rect x="440" y="32" width="75" height="20" rx="8" fill="url(#cloudGradHero)" />
           </g>
 
-          {/* ── CLOUD D (Center-right small) ── */}
-          <g opacity="0.72">
-            <ellipse cx="990" cy="58" rx="70" ry="19" fill="url(#underside)" opacity="0.4" />
-            <ellipse cx="990" cy="50" rx="68" ry="24" fill="url(#cg1)" />
-            <circle cx="935" cy="44" r="22" fill="url(#lobe1)" />
-            <circle cx="963" cy="33" r="30" fill="url(#lobe2)" />
-            <circle cx="994" cy="27" r="34" fill="url(#lobe1)" />
-            <circle cx="1024" cy="34" r="28" fill="url(#lobe2)" />
-            <circle cx="1050" cy="44" r="22" fill="url(#lobe1)" />
-            <rect x="935" y="42" width="130" height="20" rx="8" fill="url(#cg1)" />
-          </g>
-
-          {/* ── CLOUD E (Far center tiny wisp) ── */}
-          <g opacity="0.58">
-            <ellipse cx="700" cy="38" rx="52" ry="16" fill="url(#cg2)" />
-            <circle cx="662" cy="33" r="18" fill="url(#lobe1)" />
-            <circle cx="688" cy="25" r="24" fill="url(#lobe2)" />
-            <circle cx="714" cy="22" r="26" fill="url(#lobe1)" />
-            <circle cx="738" cy="28" r="20" fill="url(#lobe2)" />
-            <rect x="662" y="30" width="90" height="14" rx="6" fill="url(#cg2)" />
+          {/* Cloud 4 — Center-Right Floating */}
+          <g opacity="0.75">
+            <circle cx="940" cy="40" r="25" fill="#ffffff" />
+            <circle cx="975" cy="28" r="32" fill="url(#cloudGradHero)" />
+            <circle cx="1010" cy="36" r="26" fill="#f8fbff" />
+            <rect x="940" y="34" width="70" height="18" rx="8" fill="url(#cloudGradHero)" />
           </g>
         </svg>
-      </div>
+      </motion.div>
 
-      {/* ── DETAILED CANYON SVG LANDSCAPE (Day Colors) ── */}
-      <div className="absolute bottom-0 left-0 right-0 w-full pointer-events-none overflow-hidden">
+      {/* ══════════════════════════════════════════════════
+          LAYER 3 — VISIBLE MOUNTAIN MESAS (z-20)
+          Rises behind the lower half of the content!
+      ══════════════════════════════════════════════════ */}
+      <motion.div
+        style={{ x: mtnX }}
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 scale-105"
+      >
         <svg
-          viewBox="0 0 1440 320"
+          viewBox="0 0 1440 380"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-auto"
-          preserveAspectRatio="xMidYMax meet"
+          className="w-full h-auto min-h-[220px] max-h-[340px]"
+          preserveAspectRatio="xMidYMax slice"
         >
-          {/* Far-back canyon ridge (Warm Terracotta Mesa) */}
+          {/* Back canyon ridges — soft warm amber */}
           <path
-            d="M0 320V210L60 190L140 220L230 165L340 200L450 150L560 185L670 140L790 175L900 130L1010 170L1120 125L1240 165L1340 140L1440 160V320H0Z"
-            fill="#c26b30"
-            opacity="0.9"
-          />
-          {/* Mid canyon buttes */}
-          <path
-            d="M0 320V240L50 235L100 245H180L200 220L240 220L260 245H350L380 215L440 215L460 245H560L600 225L700 230H760L810 200L880 200L900 230H960L1010 218L1080 220L1100 240H1180L1220 220L1300 225L1320 240H1380L1440 230V320H0Z"
-            fill="#a3511c"
-          />
-          {/* Foreground desert ground */}
-          <path
-            d="M0 320V280C120 268 280 274 440 266C600 258 760 270 920 262C1080 254 1240 268 1440 258V320H0Z"
-            fill="#8a3f14"
-          />
-          <path
-            d="M0 320V295C200 285 400 292 600 288C800 284 1000 292 1200 286C1320 282 1380 290 1440 288V320H0Z"
-            fill="#6e2f0d"
+            d="M0 380V210 L70 190 L150 205 L240 170 L340 192 L450 155 L560 182 L670 145 L780 175 L890 135 L1000 168 L1110 130 L1220 162 L1330 142 L1440 165 V380Z"
+            fill="#d27842"
+            opacity="0.65"
           />
 
-          {/* Saguaro Cacti Silhouettes (Darker for contrast on bright sky) */}
-          <g opacity="0.9">
-            <path d="M120 295V190Q120 178 128 178Q136 178 136 190V295Z" fill="#2d4a2a" />
-            <path d="M120 220Q96 220 92 206Q88 192 100 192Q108 192 108 200L108 238" fill="#2d4a2a" />
-            <path d="M108 238V220" stroke="#2d4a2a" strokeWidth="8" />
-            <path d="M136 212Q160 212 164 198Q168 184 156 184Q148 184 148 192L148 234" fill="#2d4a2a" />
-            <path d="M148 234V212" stroke="#2d4a2a" strokeWidth="8" />
-            <circle cx="128" cy="176" r="4" fill="#d99951" />
-          </g>
+          {/* Mid mesas & canyon walls — terracotta */}
+          <path
+            d="M0 380V250 L60 244 L110 252 L170 230 L230 238 L290 220 L350 232 L440 212 L520 226 L600 204 L680 222 L760 198 L840 216 L920 194 L1000 212 L1080 190 L1160 208 L1240 192 L1320 206 L1400 196 L1440 202 V380Z"
+            fill="#bc5b24"
+          />
 
-          <g opacity="0.85">
-            <path d="M1300 295V230Q1300 222 1307 222Q1314 222 1314 230V295Z" fill="#2d4a2a" />
-            <path d="M1300 250Q1286 250 1284 242Q1282 234 1290 234Q1295 234 1295 240L1295 258" fill="#2d4a2a" />
-            <path d="M1314 244Q1328 244 1330 236Q1332 228 1324 228Q1319 228 1319 234L1319 260" fill="#2d4a2a" />
-            <circle cx="1307" cy="220" r="3.5" fill="#be592e" />
-          </g>
+          {/* Near canyon bluffs & red rock cliffs — rich dark rust */}
+          <path
+            d="M0 380V290 L50 284 L110 292 L180 274 L250 282 L320 268 L400 278 L480 258 L560 270 L640 250 L720 264 L800 244 L880 260 L960 240 L1040 256 L1120 238 L1200 252 L1280 236 L1360 250 L1440 242 V380Z"
+            fill="#963b15"
+          />
 
-          {/* Distant Horse & Rider */}
-          <g opacity="0.5" transform="translate(680, 202)">
-            <ellipse cx="0" cy="20" rx="22" ry="10" fill="#28150d" />
-            <line x1="-14" y1="28" x2="-16" y2="44" stroke="#28150d" strokeWidth="3" />
-            <line x1="14" y1="28" x2="17" y2="44" stroke="#28150d" strokeWidth="3" />
-            <path d="M12 14 Q16 8 18 4 Q22 0 24 2 Q22 6 20 8 Q22 10 18 14Z" fill="#28150d" />
-            <ellipse cx="2" cy="6" rx="6" ry="8" fill="#28150d" />
-            <line x1="-4" y1="0" x2="8" y2="0" stroke="#28150d" strokeWidth="2" />
-          </g>
+          {/* Near ground base */}
+          <path
+            d="M0 380V328 C240 318 480 324 720 320 C960 316 1200 324 1440 318 V380Z"
+            fill="#6d2407"
+          />
+        </svg>
+      </motion.div>
+
+      {/* ══════════════════════════════════════════════════
+          SIDE PROPS: LEFT FLANKING (Desktop / Wide)
+          Cowboy Spinning Lasso + Wanted Poster + Saguaro Cactus
+      ══════════════════════════════════════════════════ */}
+      {/* Tall Saguaro Cactus Far Left */}
+      <div className="pointer-events-none absolute left-1 sm:left-4 lg:left-8 bottom-6 z-25 opacity-90 drop-shadow-xl hidden md:block">
+        <svg viewBox="0 0 110 220" className="w-20 sm:w-28 lg:w-36 h-auto" xmlns="http://www.w3.org/2000/svg">
+          <rect x="42" y="15" width="22" height="195" rx="11" fill="#2a5426" />
+          <path d="M42 100 Q18 100 14 82 Q10 64 22 62 Q30 60 32 70 L32 115" fill="#2a5426" />
+          <rect x="20" y="70" width="14" height="50" rx="7" fill="#2a5426" />
+          <path d="M64 85 Q90 85 94 68 Q98 50 86 48 Q78 46 76 56 L76 102" fill="#2a5426" />
+          <rect x="74" y="55" width="14" height="52" rx="7" fill="#2a5426" />
+          <circle cx="53" cy="12" r="5" fill="#facc15" />
+          <circle cx="27" cy="62" r="3.5" fill="#facc15" />
+          <circle cx="83" cy="48" r="3.5" fill="#facc15" />
+          <line x1="53" y1="25" x2="53" y2="200" stroke="#1d401a" strokeWidth="2" opacity="0.4" />
         </svg>
       </div>
 
-      {/* Tumbleweed Decorations */}
-      <div className="absolute bottom-[200px] left-[8%] pointer-events-none opacity-40">
-        <TumbleweedSvg className="w-12 h-12" />
-      </div>
-      <div className="absolute bottom-[220px] right-[12%] pointer-events-none opacity-30">
-        <TumbleweedSvg className="w-8 h-8" />
-      </div>
-
-      {/* ── SUN CIRCLE IN SKY ── */}
-      <div className="absolute top-[8%] left-1/2 -translate-x-1/2 pointer-events-none z-[2]">
-        <svg viewBox="0 0 120 120" className="w-24 h-24 sm:w-32 sm:h-32 opacity-85" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="sunGrad" cx="50%" cy="40%" r="60%">
-              <stop offset="0%" stopColor="#fff4a0" />
-              <stop offset="50%" stopColor="#ffd040" />
-              <stop offset="100%" stopColor="#f5900a" />
-            </radialGradient>
-          </defs>
-          {/* Sun rays */}
-          {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg) => (
-            <line
-              key={deg}
-              x1="60" y1="60"
-              x2={60 + 52 * Math.cos((deg - 90) * Math.PI / 180)}
-              y2={60 + 52 * Math.sin((deg - 90) * Math.PI / 180)}
-              stroke="#ffd040" strokeWidth="2.5" strokeLinecap="round" opacity="0.6"
-            />
-          ))}
-          <circle cx="60" cy="60" r="28" fill="url(#sunGrad)" />
-          <circle cx="60" cy="60" r="22" fill="#fff4a0" opacity="0.5" />
-        </svg>
+      {/* Real Cartoon Cowboy Spinning Lasso (Left Mascot - Clean without hooves) */}
+      <div className="pointer-events-none absolute left-8 lg:left-16 xl:left-24 bottom-8 z-25 drop-shadow-2xl hidden lg:block">
+        <div className="flex flex-col items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/cowboy/cowboy-lasso-clean.png"
+            alt="Cowboy with Lasso"
+            className="w-28 xl:w-36 h-auto drop-shadow-2xl"
+          />
+          <div className="text-[10px] font-cowboy uppercase tracking-widest text-[#fbf5eb] bg-[#451a03]/90 px-3 py-0.5 rounded border border-[#facc15] mt-1 shadow-md font-bold">
+            ★ POSSE SHERIFF ★
+          </div>
+        </div>
       </div>
 
-      {/* ── FLYING VULTURES / BIRDS ── */}
-      <div className="absolute top-[18%] left-[18%] pointer-events-none z-[2] opacity-70">
-        <svg viewBox="0 0 80 30" className="w-16 h-6" xmlns="http://www.w3.org/2000/svg">
-          {/* Bird 1 */}
-          <path d="M10 15 Q20 5 30 15 Q20 10 10 15Z" fill="#28150d" />
-          <path d="M30 15 Q40 5 50 15 Q40 10 30 15Z" fill="#28150d" />
-          {/* Bird 2 smaller */}
-          <path d="M55 10 Q62 4 70 10 Q62 7 55 10Z" fill="#28150d" opacity="0.7" />
-          <path d="M70 10 Q76 4 80 10 Q76 7 70 10Z" fill="#28150d" opacity="0.7" />
-        </svg>
-      </div>
-      <div className="absolute top-[14%] right-[22%] pointer-events-none z-[2] opacity-55">
-        <svg viewBox="0 0 60 25" className="w-12 h-5" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 12 Q14 4 24 12 Q14 8 5 12Z" fill="#28150d" />
-          <path d="M24 12 Q32 4 42 12 Q32 8 24 12Z" fill="#28150d" />
-          <path d="M45 8 Q51 3 57 8 Q51 5 45 8Z" fill="#28150d" opacity="0.6" />
-        </svg>
-      </div>
-
-      {/* ── LEFT SIDE: WANTED POSTER ── */}
-      <div className="absolute left-[2%] xl:left-[5%] top-[28%] pointer-events-none z-[3] hidden lg:block">
-        <div
-          className="w-28 xl:w-36 rotate-[-4deg]"
-          style={{
-            filter: 'drop-shadow(4px 8px 12px rgba(0,0,0,0.5))',
-          }}
-        >
-          <svg viewBox="0 0 140 190" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            {/* Wood plank background */}
-            <rect x="0" y="0" width="140" height="190" rx="4" fill="#6b3a1f" />
-            {/* Paper */}
-            <rect x="6" y="6" width="128" height="178" rx="2" fill="#f5e8c8" />
-            {/* Inner border */}
-            <rect x="10" y="10" width="120" height="170" rx="1" fill="none" stroke="#8b4513" strokeWidth="2" strokeDasharray="4,2" />
-            {/* WANTED text */}
-            <text x="70" y="38" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="20" fill="#8b1a1a" letterSpacing="3">WANTED</text>
-            {/* Star badge */}
-            <polygon points="70,52 74,64 87,64 76,72 80,84 70,76 60,84 64,72 53,64 66,64" fill="#d4a017" stroke="#8b6914" strokeWidth="1" />
-            {/* Face silhouette */}
-            <ellipse cx="70" cy="108" rx="24" ry="28" fill="#c8956a" />
-            <rect x="52" y="108" width="36" height="20" rx="4" fill="#c8956a" />
-            {/* Hat */}
-            <rect x="48" y="82" width="44" height="8" rx="2" fill="#28150d" />
-            <rect x="56" y="62" width="28" height="22" rx="3" fill="#28150d" />
-            {/* Eyes */}
-            <circle cx="61" cy="104" r="3" fill="#28150d" />
-            <circle cx="79" cy="104" r="3" fill="#28150d" />
-            {/* Mustache */}
-            <path d="M62 114 Q70 118 78 114" stroke="#28150d" strokeWidth="2" fill="none" strokeLinecap="round" />
-            {/* DEAD OR ALIVE */}
-            <text x="70" y="150" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="8" fill="#8b1a1a" letterSpacing="1">DEAD OR ALIVE</text>
-            {/* Prize */}
-            <text x="70" y="166" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="10" fill="#28150d">RP 95.000</text>
-            {/* Nail top */}
-            <circle cx="70" cy="4" r="5" fill="#c8a060" stroke="#8b6914" strokeWidth="1" />
+      {/* Wanted Poster Hanging Left */}
+      <div className="pointer-events-none absolute left-6 xl:left-10 top-[24%] z-25 drop-shadow-2xl hidden xl:block">
+        <div style={{ transform: 'rotate(-5deg)' }} className="w-24 xl:w-28">
+          <svg viewBox="0 0 130 175" xmlns="http://www.w3.org/2000/svg" className="w-full">
+            <rect x="0" y="0" width="130" height="175" rx="3" fill="#6b3a1f" />
+            <rect x="5" y="5" width="120" height="165" rx="2" fill="#fbf0d6" />
+            <rect x="8" y="8" width="114" height="159" rx="1" fill="none" stroke="#8b4513" strokeWidth="1.5" strokeDasharray="4,2" />
+            <text x="65" y="32" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="16" fill="#8b1a1a" letterSpacing="2">WANTED</text>
+            <polygon points="65,42 68,51 77,51 70,57 73,66 65,60 57,66 60,57 53,51 62,51" fill="#d4a017" stroke="#8b6914" strokeWidth="0.8" />
+            <ellipse cx="65" cy="88" rx="20" ry="22" fill="#c8956a" />
+            <rect x="50" y="88" width="30" height="16" rx="3" fill="#c8956a" />
+            <rect x="46" y="66" width="38" height="6" rx="2" fill="#28150d" />
+            <rect x="53" y="50" width="24" height="18" rx="2" fill="#28150d" />
+            <circle cx="58" cy="84" r="2.5" fill="#28150d" />
+            <circle cx="72" cy="84" r="2.5" fill="#28150d" />
+            <text x="65" y="128" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="7" fill="#8b1a1a" letterSpacing="1">DEAD OR ALIVE</text>
+            <text x="65" y="146" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="11" fill="#28150d">RP 95.000</text>
+            <circle cx="65" cy="3" r="4" fill="#c8a060" stroke="#8b6914" strokeWidth="0.8" />
           </svg>
         </div>
       </div>
 
-      {/* ── RIGHT SIDE: SHERIFF STAR + SALOON SIGN ── */}
-      <div className="absolute right-[2%] xl:right-[5%] top-[26%] pointer-events-none z-[3] hidden lg:block">
-        <div className="flex flex-col items-center gap-4">
-          {/* Saloon sign hanging */}
-          <div
-            className="w-32 xl:w-40 rotate-[3deg]"
-            style={{ filter: 'drop-shadow(4px 8px 12px rgba(0,0,0,0.45))' }}
-          >
-            <svg viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              {/* Chains */}
-              <line x1="30" y1="0" x2="30" y2="12" stroke="#8b6914" strokeWidth="2.5" strokeDasharray="3,2" />
-              <line x1="130" y1="0" x2="130" y2="12" stroke="#8b6914" strokeWidth="2.5" strokeDasharray="3,2" />
-              {/* Sign board */}
-              <rect x="4" y="12" width="152" height="80" rx="6" fill="#6b3a1f" />
-              <rect x="8" y="16" width="144" height="72" rx="4" fill="#c8832a" />
-              <rect x="12" y="20" width="136" height="64" rx="3" fill="#b5721e" />
-              {/* Border ornament */}
-              <rect x="14" y="22" width="132" height="60" rx="2" fill="none" stroke="#f6d19e" strokeWidth="1.5" />
-              {/* SALOON text */}
-              <text x="80" y="52" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="22" fill="#f6d19e" letterSpacing="4">SALOON</text>
-              <text x="80" y="68" textAnchor="middle" fontFamily="serif" fontSize="9" fill="#f6d19e" letterSpacing="2">ISFEST 2027</text>
-              {/* Stars left right */}
-              <polygon points="22,45 24,51 30,51 25,55 27,61 22,57 17,61 19,55 14,51 20,51" fill="#f6d19e" opacity="0.8" />
-              <polygon points="138,45 140,51 146,51 141,55 143,61 138,57 133,61 135,55 130,51 136,51" fill="#f6d19e" opacity="0.8" />
-            </svg>
-          </div>
+      {/* ══════════════════════════════════════════════════
+          SIDE PROPS: RIGHT FLANKING (Desktop / Wide)
+          Real Cartoon Cowboy Riding Horse + Saloon Sign + Cactus
+      ══════════════════════════════════════════════════ */}
+      {/* Tall Saguaro Cactus Far Right */}
+      <div className="pointer-events-none absolute right-1 sm:right-4 lg:right-8 bottom-6 z-25 opacity-90 drop-shadow-xl hidden md:block">
+        <svg viewBox="0 0 110 220" className="w-20 sm:w-28 lg:w-36 h-auto" xmlns="http://www.w3.org/2000/svg">
+          <rect x="46" y="20" width="20" height="190" rx="10" fill="#2a5426" />
+          <path d="M46 90 Q24 90 20 74 Q16 58 26 56 Q34 54 36 64 L36 104" fill="#2a5426" />
+          <rect x="24" y="64" width="13" height="46" rx="6.5" fill="#2a5426" />
+          <path d="M66 105 Q88 105 92 88 Q96 70 86 68 Q78 66 76 76 L76 118" fill="#2a5426" />
+          <rect x="74" y="74" width="13" height="48" rx="6.5" fill="#2a5426" />
+          <circle cx="56" cy="18" r="4.5" fill="#facc15" />
+          <circle cx="30" cy="56" r="3" fill="#facc15" />
+          <circle cx="82" cy="68" r="3" fill="#facc15" />
+        </svg>
+      </div>
 
-          {/* Big Sheriff Star */}
-          <div
-            className="rotate-[8deg] mt-2"
-            style={{ filter: 'drop-shadow(3px 6px 10px rgba(0,0,0,0.5))' }}
-          >
-            <svg viewBox="0 0 80 80" className="w-16 xl:w-20 h-16 xl:h-20" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <radialGradient id="starGold" cx="40%" cy="30%" r="65%">
-                  <stop offset="0%" stopColor="#ffe680" />
-                  <stop offset="60%" stopColor="#d4a017" />
-                  <stop offset="100%" stopColor="#8b6400" />
-                </radialGradient>
-              </defs>
-              {/* 6-point star */}
-              <polygon
-                points="40,4 46,28 70,28 50,44 58,68 40,54 22,68 30,44 10,28 34,28"
-                fill="url(#starGold)"
-                stroke="#8b6400"
-                strokeWidth="1.5"
-              />
-              {/* Circle center */}
-              <circle cx="40" cy="40" r="12" fill="#f5e070" stroke="#8b6400" strokeWidth="1.5" />
-              {/* Badge text */}
-              <text x="40" y="44" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="7" fill="#28150d">SHERIFF</text>
-            </svg>
+      {/* Real Cartoon Cowboy Riding Galloping Horse (Right Mascot) */}
+      <div className="pointer-events-none absolute right-8 lg:right-16 xl:right-24 bottom-6 z-25 drop-shadow-2xl hidden lg:block">
+        <div className="flex flex-col items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/cowboy/cowboy-riding-horse.png"
+            alt="Cowboy Riding Galloping Horse"
+            className="w-36 xl:w-48 h-auto drop-shadow-2xl"
+          />
+          <div className="text-[10px] font-cowboy uppercase tracking-widest text-[#28150d] bg-[#fef08a] px-3 py-0.5 rounded border border-[#78350f] -mt-2 shadow-md font-bold">
+            ★ FRONTIER CHAMPION ★
           </div>
         </div>
       </div>
 
-      {/* ── DECORATIVE BARBED WIRE HORIZONTAL (kiri & kanan bawah langit) ── */}
-      <div className="absolute top-[55%] left-0 right-0 pointer-events-none z-[2] opacity-30 hidden xl:block">
-        <svg viewBox="0 0 1440 20" className="w-full" xmlns="http://www.w3.org/2000/svg">
-          <line x1="0" y1="10" x2="1440" y2="10" stroke="#28150d" strokeWidth="1.5" />
-          {Array.from({length: 36}).map((_, i) => (
-            <g key={i} transform={`translate(${i * 40 + 10}, 10)`}>
-              <line x1="-4" y1="-4" x2="4" y2="4" stroke="#28150d" strokeWidth="1.5" />
-              <line x1="4" y1="-4" x2="-4" y2="4" stroke="#28150d" strokeWidth="1.5" />
-            </g>
-          ))}
-        </svg>
+      {/* Hanging Saloon Sign Right */}
+      <div className="pointer-events-none absolute right-6 xl:right-10 top-[24%] z-25 drop-shadow-2xl hidden xl:block">
+        <div style={{ transform: 'rotate(4deg)' }} className="w-28 xl:w-32">
+          <svg viewBox="0 0 150 90" xmlns="http://www.w3.org/2000/svg" className="w-full">
+            <line x1="28" y1="0" x2="28" y2="10" stroke="#8b6914" strokeWidth="2" strokeDasharray="3,2" />
+            <line x1="122" y1="0" x2="122" y2="10" stroke="#8b6914" strokeWidth="2" strokeDasharray="3,2" />
+            <rect x="4" y="10" width="142" height="74" rx="5" fill="#6b3a1f" />
+            <rect x="8" y="14" width="134" height="66" rx="3" fill="#c8832a" />
+            <rect x="12" y="18" width="126" height="58" rx="2" fill="#b5721e" />
+            <rect x="14" y="20" width="122" height="54" rx="1.5" fill="none" stroke="#f6d19e" strokeWidth="1.2" />
+            <text x="75" y="48" textAnchor="middle" fontFamily="serif" fontWeight="bold" fontSize="20" fill="#f6d19e" letterSpacing="3">SALOON</text>
+            <text x="75" y="63" textAnchor="middle" fontFamily="serif" fontSize="8" fill="#f6d19e" letterSpacing="1.5">ISFEST 2027</text>
+          </svg>
+        </div>
       </div>
 
-      {/* ── MAIN HERO CONTENT ── */}
-      <div className="relative z-10 max-w-5xl mx-auto text-center w-full pb-[200px]">
-
-        {/* Circular Retro Cowboy Hat Badge (From HOWDY Poster Image 2) */}
-        <div className="mb-4 flex flex-col items-center gap-2.5">
-          <RetroCowboyBadge className="w-20 h-20 sm:w-24 sm:h-24 drop-shadow-[0_8px_20px_rgba(0,0,0,0.5)]" />
-          <div className="cowboy-stamp text-[11px] sm:text-xs font-semibold tracking-widest px-4 py-1 rounded border-2 border-[#be592e] bg-[#fbf5eb] text-[#be592e] flex items-center gap-2 shadow-md">
-            <SheriffBadgeIcon className="w-3.5 h-3.5 text-[#be592e]" />
+      {/* ══════════════════════════════════════════════════
+          LAYER 4 — STATIC HERO CONTENT (z-30)
+          Teks tetap diam, layout padat & rapi dalam 1 layar!
+      ══════════════════════════════════════════════════ */}
+      <div className="relative z-30 w-full max-w-3xl lg:max-w-4xl mx-auto text-center flex flex-col items-center">
+        {/* Top Sheriff Badge */}
+        <div className="mb-2 flex flex-col items-center gap-1.5">
+          <RetroCowboyBadge className="w-14 h-14 sm:w-16 sm:h-16 drop-shadow-[0_6px_16px_rgba(0,0,0,0.5)]" />
+          <div className="cowboy-stamp text-[10px] sm:text-[11px] font-semibold tracking-widest px-3 py-0.5 rounded border-2 border-[#be592e] bg-[#fbf5eb] text-[#be592e] flex items-center gap-1.5 shadow-md">
+            <SheriffBadgeIcon className="w-3 h-3 text-[#be592e]" />
             <span>PINTU GERBANG UTAMA • ISFEST UMN 2027</span>
           </div>
         </div>
 
-        {/* Southwestern Star Band (From HOWDY Poster) */}
-        <div className="max-w-md mx-auto mb-3">
-          <SouthwesternStarBand className="w-full opacity-85" />
+        {/* Southwestern Star Band */}
+        <div className="max-w-xs mx-auto mb-1.5">
+          <SouthwesternStarBand className="w-full opacity-80" />
         </div>
 
-        {/* Big Bold Western Typography ("HOWDY" Style Title) */}
-        <div className="mb-4 relative">
-          <div className="hidden lg:block absolute left-2 top-1/2 -translate-y-1/2 opacity-75">
-            <GallopingHorseSvg className="w-24 h-16" />
-          </div>
-          <div className="hidden lg:block absolute right-2 top-1/2 -translate-y-1/2 opacity-75 scale-x-[-1]">
-            <GallopingHorseSvg className="w-24 h-16" />
-          </div>
-
-          <span className="block text-xs sm:text-sm font-cowboy tracking-[0.3em] text-[#28150d] uppercase mb-1 drop-shadow-sm font-bold">
+        {/* Title Block */}
+        <div className="mb-2">
+          <span className="block text-[11px] sm:text-xs font-cowboy tracking-[0.28em] text-[#28150d] uppercase mb-0.5 font-bold drop-shadow-sm">
             THE WILD WEST DIGITAL FRONTIER
           </span>
 
           <h1
-            className="font-cowboy text-6xl sm:text-8xl lg:text-9xl tracking-wider text-[#fbf5eb] leading-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
-            style={{
-              textShadow: '3px 3px 0 #be592e, 6px 6px 0 #28150d',
-            }}
+            className="font-cowboy text-5xl sm:text-7xl lg:text-8xl tracking-wider text-[#fbf5eb] leading-none"
+            style={{ textShadow: '3px 3px 0 #be592e, 6px 6px 0 #28150d' }}
           >
             ISFEST
           </h1>
 
           <div
-            className="font-cowboy text-4xl sm:text-6xl tracking-widest text-[#fbf5eb] mt-1"
+            className="font-cowboy text-3xl sm:text-5xl tracking-widest text-[#fbf5eb] mt-0.5"
             style={{ textShadow: '2px 2px 0 #be592e, 4px 4px 0 #28150d' }}
           >
             2027
           </div>
 
-          <p className="font-cowboy text-lg sm:text-2xl text-[#fbf5eb] mt-2 tracking-wider drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
-            SHOWDOWN IN THE DIGITAL DESERT
+          <p className="font-cowboy text-xs sm:text-base text-[#fbf5eb] mt-1 tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+            ★ SHOWDOWN IN THE DIGITAL DESERT ★
           </p>
         </div>
 
-        {/* Southwestern Star Band (Bottom) */}
-        <div className="max-w-md mx-auto mb-6">
-          <SouthwesternStarBand className="w-full opacity-85" />
-        </div>
-
-        {/* Subtitle Description */}
-        <p className="text-[#fbf5eb] text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed mb-8 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] font-semibold">
-          Selamat datang di gerbang festival sistem informasi resmi Universitas Multimedia Nusantara.
-          Persiapkan gengmu untuk bertarung di 4 cabang perlombaan bergengsi: UI/UX Cartographer,
-          Data Mining Prospector, Mobile Legends Posse, dan Valorant Tactical Championship.
+        {/* Subtitle */}
+        <p className="text-[#fbf5eb] text-xs sm:text-sm max-w-xl mx-auto leading-relaxed mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] font-semibold">
+          Festival sistem informasi resmi Universitas Multimedia Nusantara.
+          Bertarung di 4 arena duel: UI/UX Cartographer, Data Mining Prospector, Mobile Legends Posse, dan Valorant Championship.
         </p>
 
-        {/* Retro Poster Bounty Board (HOWDY Canvas Inset) */}
-        <div className="relative max-w-lg mx-auto mb-8">
-          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
-            <span className="font-cowboy text-[10px] tracking-widest bg-[#be592e] border-2 border-[#28150d] text-[#fffbf5] px-4 py-1 rounded-md shadow-md uppercase font-bold">
-              ★ BOUNTY BOARD RESMI ★
-            </span>
+        {/* ── BOUNTY BOARD & COUNTDOWN SIDE-BY-SIDE ON DESKTOP ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-2xl mx-auto mb-3">
+          {/* Box 1: Bounty Board */}
+          <div className="relative">
+            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20">
+              <span className="font-cowboy text-[9px] tracking-widest bg-[#be592e] border border-[#28150d] text-[#fffbf5] px-2.5 py-0.5 rounded shadow uppercase font-bold whitespace-nowrap">
+                ★ BOUNTY RESMI ★
+              </span>
+            </div>
+            <div className="wanted-card p-3 h-full flex flex-col justify-center">
+              <div className="brass-pin pin-tl" />
+              <div className="brass-pin pin-tr" />
+              <div className="brass-pin pin-bl" />
+              <div className="brass-pin pin-br" />
+              <div className="border border-[#28150d] bg-[#fbf5eb] p-2 text-center rounded-lg shadow-inner">
+                <span className="text-[9px] font-cowboy tracking-widest text-[#be592e] uppercase block font-bold">TOTAL DANA PEMBINAAN</span>
+                <div className="font-cowboy text-2xl sm:text-3xl text-[#28150d] tracking-wider my-0.5">RP 21.000.000+</div>
+                <span className="text-[8px] sm:text-[9px] text-[#523323] uppercase tracking-wider font-bold">Trofi Juara • Piagam Nasional • Uang Tunai</span>
+              </div>
+            </div>
           </div>
 
-          {/* Wanted Poster Card Style from Image 2 */}
-          <div className="wanted-card p-5">
-            <div className="brass-pin pin-tl" />
-            <div className="brass-pin pin-tr" />
-            <div className="brass-pin pin-bl" />
-            <div className="brass-pin pin-br" />
-
-            <div className="border-2 border-[#28150d] bg-[#fbf5eb] p-4 text-center rounded-xl shadow-inner">
-              <span className="text-[11px] font-cowboy tracking-widest text-[#be592e] uppercase block mb-1 font-bold">
-                TOTAL DANA PEMBINAAN
+          {/* Box 2: Countdown */}
+          <div className="relative">
+            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20">
+              <span className="font-cowboy text-[9px] tracking-widest bg-[#28150d] border border-[#fde047] text-[#fde047] px-2.5 py-0.5 rounded shadow uppercase font-bold whitespace-nowrap">
+                ★ EARLY BIRD WAVE 1 ★
               </span>
-              <div className="font-cowboy text-4xl sm:text-5xl text-[#28150d] tracking-wider my-1 drop-shadow-sm">
-                RP 21.000.000+
+            </div>
+            <div className="p-3 rounded-xl bg-[#fbf5eb] border-2 border-[#be592e] text-[#28150d] shadow-md h-full flex flex-col justify-center">
+              <div className="flex items-center justify-center gap-1.5 text-[#be592e] font-cowboy text-[9px] tracking-widest uppercase mb-1.5 font-bold">
+                <Clock className="w-3 h-3 text-[#be592e]" />
+                <span>BERAKHIR: 12 JULI 2027</span>
               </div>
-              <span className="text-[11px] text-[#523323] uppercase tracking-wider font-bold">
-                Trofi Juara • Piagam Nasional UMN • Dana Pembinaan
-              </span>
+              <div className="grid grid-cols-4 gap-1.5 text-center">
+                {[
+                  { val: timeLeft.days, label: 'Hari' },
+                  { val: timeLeft.hours, label: 'Jam' },
+                  { val: timeLeft.minutes, label: 'Mnt' },
+                  { val: timeLeft.seconds, label: 'Dtk', red: true },
+                ].map(({ val, label, red }) => (
+                  <div key={label} className="rounded-lg p-1 border border-[#28150d] bg-[#f0e4cf] shadow-inner">
+                    <span className={`block text-base sm:text-lg font-cowboy font-bold leading-tight ${red ? 'text-[#be592e]' : 'text-[#28150d]'}`}>
+                      {String(val).padStart(2, '0')}
+                    </span>
+                    <span className="text-[7.5px] uppercase tracking-wider text-[#523323] font-bold">{label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Early Bird Countdown Box (Warm Sand & Terracotta) */}
-        <div className="max-w-md mx-auto mb-8 p-4 rounded-2xl bg-[#fbf5eb] border-4 border-[#be592e] text-[#28150d] shadow-xl">
-          <div className="flex items-center justify-center gap-2 text-[#be592e] font-cowboy text-[11px] tracking-widest uppercase mb-3 font-bold">
-            <Clock className="w-3.5 h-3.5 text-[#be592e]" />
-            <span>WAVE 1 (EARLY BIRD) BERAKHIR: 12 JULI 2027</span>
-          </div>
-
-          <div className="grid grid-cols-4 gap-2 text-center">
-            {[
-              { val: timeLeft.days, label: 'Hari' },
-              { val: timeLeft.hours, label: 'Jam' },
-              { val: timeLeft.minutes, label: 'Menit' },
-              { val: timeLeft.seconds, label: 'Detik', red: true },
-            ].map(({ val, label, red }) => (
-              <div
-                key={label}
-                className="rounded-xl p-2.5 border-2 border-[#28150d] bg-[#f0e4cf] shadow-inner"
-              >
-                <span className={`block text-2xl font-cowboy font-bold ${red ? 'text-[#be592e]' : 'text-[#28150d]'}`}>
-                  {String(val).padStart(2, '0')}
-                </span>
-                <span className="text-[9px] uppercase tracking-wider text-[#523323] font-bold">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Action Buttons: Terracotta & Cream */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-10">
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 mb-3 w-full max-w-md mx-auto">
           <Link
             href="/lomba"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl font-cowboy text-sm text-[#fffbf5] btn-leather cursor-pointer shadow-lg hover:scale-105 transition-transform"
+            className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-cowboy text-xs sm:text-sm text-[#fffbf5] btn-leather cursor-pointer shadow-md hover:scale-105 transition-transform"
           >
-            <Scroll className="w-4 h-4 text-[#fde047]" />
+            <Scroll className="w-3.5 h-3.5 text-[#fde047]" />
             <span>BUKA PAPAN SAYEMBARA (4 LOMBA)</span>
-            <ArrowRight className="w-4 h-4 ml-1" />
+            <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
           </Link>
-
           <button
             onClick={onRegisterClick}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-cowboy text-sm text-[#28150d] bg-[#fbf5eb] hover:bg-[#eddcc4] border-2 border-[#28150d] shadow-md hover:scale-105 transition-all cursor-pointer font-bold"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-cowboy text-xs sm:text-sm text-[#28150d] bg-[#fbf5eb] hover:bg-[#eddcc4] border-2 border-[#28150d] shadow-sm hover:scale-105 transition-all cursor-pointer font-bold"
           >
-            <CowboyHatIcon className="w-4 h-4 text-[#be592e]" />
+            <CowboyHatIcon className="w-3.5 h-3.5 text-[#be592e]" />
             <span>KONTRAK REKRUT POSSE</span>
           </button>
         </div>
 
-        {/* 4 Feature Highlights in Warm Sand Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-left mb-8">
+        {/* 4 Feature Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-left w-full max-w-2xl mx-auto mb-2">
           {[
-            { icon: <CowboyHatIcon className="w-5 h-5 text-[#be592e]" />, title: '4 Cabang Lomba', sub: '2 Akademik & 2 E-Sports' },
-            { icon: <Trophy className="w-5 h-5 text-[#be592e]" />, title: 'Rp 21 Juta+', sub: 'Dana Pembinaan Juara' },
-            { icon: <Award className="w-5 h-5 text-[#be592e]" />, title: 'Piagam UMN', sub: 'Predikat Tingkat Nasional' },
-            { icon: <Users className="w-5 h-5 text-[#be592e]" />, title: 'Ratusan Geng', sub: 'Mahasiswa & Umum' },
+            { icon: <CowboyHatIcon className="w-3.5 h-3.5 text-[#be592e]" />, title: '4 Arena Duel', sub: '2 Akademik & 2 E-Sports' },
+            { icon: <Trophy className="w-3.5 h-3.5 text-[#be592e]" />, title: 'Rp 21 Juta+', sub: 'Dana Pembinaan Juara' },
+            { icon: <Award className="w-3.5 h-3.5 text-[#be592e]" />, title: 'Piagam UMN', sub: 'Predikat Nasional' },
+            { icon: <Users className="w-3.5 h-3.5 text-[#be592e]" />, title: 'Ratusan Geng', sub: 'Mahasiswa & Umum' },
           ].map(({ icon, title, sub }) => (
-            <div
-              key={title}
-              className="p-3.5 rounded-2xl bg-[#fbf5eb] border-2 border-[#be592e] shadow-md text-[#28150d]"
-            >
-              <div className="mb-2">{icon}</div>
-              <div className="font-cowboy text-xs text-[#28150d] leading-tight font-bold">{title}</div>
-              <div className="text-[10px] text-[#523323] mt-0.5 font-medium">{sub}</div>
+            <div key={title} className="p-2 rounded-lg bg-[#fbf5eb]/90 border border-[#be592e] shadow-sm text-[#28150d] backdrop-blur-sm">
+              <div className="mb-0.5">{icon}</div>
+              <div className="font-cowboy text-[10px] sm:text-[11px] text-[#28150d] leading-tight font-bold">{title}</div>
+              <div className="text-[8.5px] text-[#523323] mt-0.5 font-medium">{sub}</div>
             </div>
           ))}
         </div>
 
-        {/* Scroll Indicator down to Timeline */}
-        <div className="flex justify-center">
+        {/* Scroll indicator */}
+        <div className="flex justify-center mt-0.5">
           <button
             onClick={handleScrollToRoute}
-            className="flex flex-col items-center gap-1.5 text-[#fbf5eb] hover:text-[#d99951] transition-colors cursor-pointer group drop-shadow-sm"
+            className="flex flex-col items-center gap-0.5 text-[#fbf5eb] hover:text-[#d99951] transition-colors cursor-pointer group drop-shadow-sm"
           >
-            <span className="text-[10px] font-cowboy tracking-widest uppercase font-bold">TELUSURI RUTE EKSPEDISI</span>
-            <ChevronDown className="w-4 h-4 animate-bounce group-hover:text-[#d99951]" />
+            <span className="text-[8.5px] font-cowboy tracking-widest uppercase font-bold">TELUSURI RUTE EKSPEDISI</span>
+            <ChevronDown className="w-3 h-3 animate-bounce group-hover:text-[#d99951]" />
           </button>
         </div>
       </div>
 
-      {/* Bottom Barbed Wire */}
-      <div className="absolute bottom-[185px] left-0 right-0 pointer-events-none z-20">
-        <BarbedWireDivider className="opacity-45" />
-      </div>
-    </section>
+      {/* ══════════════════════════════════════════════════
+          LAYER 5 — FOREGROUND: GROUND + FENCE (z-40)
+      ══════════════════════════════════════════════════ */}
+      <motion.div
+        style={{ x: fgX }}
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-40 scale-105"
+      >
+        <svg
+          viewBox="0 0 1440 160"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-auto max-h-[100px] sm:max-h-[130px]"
+          preserveAspectRatio="xMidYMax slice"
+        >
+          {/* Ground base */}
+          <rect x="0" y="130" width="1440" height="30" fill="#421403" />
+          <path d="M0 160V132 C240 128 480 134 720 130 C960 126 1200 132 1440 128 V160Z" fill="#320e02" />
+
+          {/* Fence Posts with Gem Tops */}
+          {[180, 260, 340, 1100, 1180, 1260].map((x) => (
+            <g key={x}>
+              <rect x={x - 3} y={118} width={6} height="22" rx="1.5" fill="#8b4a1a" />
+              <rect x={x - 18} y={122} width="36" height="3" rx="1" fill="#a05828" />
+              <rect x={x - 18} y={130} width="36" height="3" rx="1" fill="#a05828" />
+              <circle cx={x} cy={118} r="2.5" fill="#d4a017" stroke="#8b6400" strokeWidth="0.5" />
+            </g>
+          ))}
+
+          {/* Yellow Gem Dots Row */}
+          {Array.from({ length: 20 }, (_, i) => 560 + i * 16).map((x) => (
+            <circle key={`gem-${x}`} cx={x} cy={131} r="2" fill="#d4a017" opacity="0.85" />
+          ))}
+        </svg>
+
+        {/* Barbed Wire Divider at lower boundary */}
+        <div className="absolute bottom-[2px] left-0 right-0">
+          <BarbedWireDivider className="opacity-35" />
+        </div>
+      </motion.div>
+    </div>
   );
 }
